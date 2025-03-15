@@ -1,7 +1,7 @@
 // app/stream/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
 // Define question type
@@ -22,9 +22,13 @@ export default function ExamPage() {
     const [userId, setUserId] = useState<number | null>(null);
     const [username, setUsername] = useState<string | null>(null);
     const [currentQuestion, setCurrentQuestion] = useState<number>(0);
-    const [answers, setAnswers] = useState<{[key: number]: string}>({});
+    const [answers, setAnswers] = useState<{ [key: number]: string }>({});
     const [timeLeft, setTimeLeft] = useState<number>(60 * 60); // 60 minutes
     const [submitted, setSubmitted] = useState<boolean>(false);
+    const [socket, setSocket] = useState<WebSocket | null>(null);
+    const [connected, setConnected] = useState<boolean>(false);
+    const lastMousePos = useRef({ x: 0, y: 0 });
+    const throttleTimeout = useRef<NodeJS.Timeout | null>(null);
     const router = useRouter();
 
     // Sample coding questions
@@ -143,6 +147,135 @@ export default function ExamPage() {
         fetchUser();
     }, [router]);
 
+    // Setup WebSocket connection
+    useEffect(() => {
+        if (!userId) return;
+
+        console.log('Setting up WebSocket with userId:', userId);
+
+        // Create WebSocket connection
+        const ws = new WebSocket('ws://localhost:8080');
+
+        ws.onopen = () => {
+            console.log('Connected to WebSocket server');
+            setConnected(true);
+
+            // Send initial tab information
+            ws.send(JSON.stringify({
+                type: 'tabSwitch',
+                userId: userId,
+                tabUrl: window.location.href,
+                action: 'initial'
+            }));
+        };
+
+        ws.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                console.log('Received:', data);
+
+                // Skip heartbeat acknowledgements
+                if (data.type === 'heartbeat_ack') return;
+
+                // Handle other WebSocket messages if needed
+            } catch (error) {
+                console.error('Error parsing message:', error);
+            }
+        };
+
+        ws.onclose = () => {
+            console.log('Disconnected from WebSocket server');
+            setConnected(false);
+        };
+
+        ws.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+
+        setSocket(ws);
+
+        // Setup keystroke tracking
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'keystroke',
+                    userId: userId,
+                    keyPressed: e.key
+                }));
+            }
+        };
+
+        // Setup mouse movement tracking
+        const handleMouseMove = (e: MouseEvent) => {
+            const currentX = Math.round(e.clientX);
+            const currentY = Math.round(e.clientY);
+
+            // Calculate distance moved
+            const deltaX = Math.abs(currentX - lastMousePos.current.x);
+            const deltaY = Math.abs(currentY - lastMousePos.current.y);
+
+            // Only track significant movements
+            if (deltaX > 5 || deltaY > 5) {
+                // Throttle events
+                if (!throttleTimeout.current) {
+                    throttleTimeout.current = setTimeout(() => {
+                        if (ws.readyState === WebSocket.OPEN) {
+                            ws.send(JSON.stringify({
+                                type: 'mouseMovement',
+                                userId: userId,
+                                xPos: currentX,
+                                yPos: currentY
+                            }));
+                        }
+
+                        // Update last position
+                        lastMousePos.current = { x: currentX, y: currentY };
+                        throttleTimeout.current = null;
+                    }, 50);
+                }
+            }
+        };
+
+        // Setup tab switch tracking
+        const handleVisibilityChange = () => {
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'tabSwitch',
+                    userId: userId,
+                    tabUrl: window.location.href,
+                    isVisible: document.visibilityState === 'visible'
+                }));
+            }
+        };
+
+        // Add event listeners
+        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        // Setup heartbeat
+        const heartbeatInterval = setInterval(() => {
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'heartbeat',
+                    userId: userId
+                }));
+            }
+        }, 30000);
+
+        // Clean up
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            clearInterval(heartbeatInterval);
+
+            if (ws) {
+                ws.close();
+            }
+        };
+    }, [userId]);
+
     // Timer countdown
     useEffect(() => {
         if (timeLeft <= 0 || submitted) return;
@@ -183,10 +316,10 @@ export default function ExamPage() {
     const handleSubmit = async () => {
         // Here you would normally submit to an API
         setSubmitted(true);
-        
+
         // For demo purposes, we're just logging
         console.log('Exam submitted with answers:', answers);
-        
+
         // Track the submission as an event
         try {
             await fetch('/api/event', {
@@ -207,6 +340,9 @@ export default function ExamPage() {
     const handleLogout = async () => {
         try {
             await fetch('/api/logout', { method: 'POST' });
+            if (socket) {
+                socket.close();
+            }
             router.push('/login');
         } catch (error) {
             console.error('Error logging out:', error);
@@ -267,10 +403,10 @@ export default function ExamPage() {
                                     key={q.id}
                                     onClick={() => setCurrentQuestion(idx)}
                                     className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold
-                                        ${currentQuestion === idx 
-                                            ? 'bg-indigo-600 text-white' 
-                                            : answers[idx] 
-                                                ? 'bg-green-700 text-white' 
+                                        ${currentQuestion === idx
+                                            ? 'bg-indigo-600 text-white'
+                                            : answers[idx]
+                                                ? 'bg-green-700 text-white'
                                                 : 'bg-gray-700 text-gray-300'
                                         }`}
                                 >
@@ -288,18 +424,18 @@ export default function ExamPage() {
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-2xl font-bold">{question.title}</h2>
                             <span className={`px-3 py-1 rounded-full text-sm font-medium
-                                ${question.difficulty === 'Easy' ? 'bg-green-800 text-green-200' : 
-                                question.difficulty === 'Medium' ? 'bg-yellow-800 text-yellow-200' : 
-                                question.difficulty === 'Hard' ? 'bg-red-800 text-red-200' : 
-                                'bg-purple-800 text-purple-200'}`}>
+                                ${question.difficulty === 'Easy' ? 'bg-green-800 text-green-200' :
+                                    question.difficulty === 'Medium' ? 'bg-yellow-800 text-yellow-200' :
+                                        question.difficulty === 'Hard' ? 'bg-red-800 text-red-200' :
+                                            'bg-purple-800 text-purple-200'}`}>
                                 {question.difficulty}
                             </span>
                         </div>
-                        
+
                         <div className="mb-6 whitespace-pre-line text-gray-300">
                             {question.description}
                         </div>
-                        
+
                         <div className="mb-6">
                             <h3 className="text-lg font-semibold mb-2">Examples:</h3>
                             <div className="space-y-4">
@@ -323,7 +459,7 @@ export default function ExamPage() {
                                 ))}
                             </div>
                         </div>
-                        
+
                         <div className="mb-6">
                             <h3 className="text-lg font-semibold mb-2">Constraints:</h3>
                             <ul className="list-disc pl-5 text-gray-300">
@@ -333,7 +469,7 @@ export default function ExamPage() {
                             </ul>
                         </div>
                     </div>
-                    
+
                     {/* Answer area */}
                     <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-6">
                         <h3 className="text-lg font-semibold mb-4">Your Solution:</h3>
@@ -344,21 +480,20 @@ export default function ExamPage() {
                             className="w-full h-64 p-4 bg-gray-900 text-white border border-gray-700 rounded-md font-mono resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         />
                     </div>
-                    
+
                     {/* Navigation buttons */}
                     <div className="flex justify-between">
                         <button
                             onClick={handlePrevQuestion}
                             disabled={currentQuestion === 0}
-                            className={`px-5 py-2 rounded-md ${
-                                currentQuestion === 0 
-                                    ? 'bg-gray-700 text-gray-500 cursor-not-allowed' 
-                                    : 'bg-gray-700 text-white hover:bg-gray-600'
-                            }`}
+                            className={`px-5 py-2 rounded-md ${currentQuestion === 0
+                                ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                                : 'bg-gray-700 text-white hover:bg-gray-600'
+                                }`}
                         >
                             Previous
                         </button>
-                        
+
                         <div className="flex space-x-4">
                             {currentQuestion < questions.length - 1 ? (
                                 <button
