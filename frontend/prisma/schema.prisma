@@ -8,57 +8,80 @@ datasource db {
 }
 
 model User {
-  id             Int              @id @default(autoincrement())
-  username       String           @unique
-  password       String
-  eventLogs      EventLog[]
-  keystrokes     Keystroke[]
-  mouseMovements MouseMovement[]
-  tabSwitches    TabSwitch[]
-  ExamSubmission ExamSubmission[]
+  id               Int                @id @default(autoincrement())
+  username         String             @unique
+  password         String
+  AnomalyDetection AnomalyDetection[]
+  eventLogs        EventLog[]
+  ExamSubmission   ExamSubmission[]
+  keystrokes       Keystroke[]
+  mouseMovements   MouseMovement[]
+  tabSwitches      TabSwitch[]
 }
 
 model EventLog {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  timestamp DateTime @default(now())
-  eventType String
-  details   String?
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model MouseMovement {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  timestamp DateTime @default(now())
-  xPos      Int
-  yPos      Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model TabSwitch {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  timestamp DateTime @default(now())
-  tabUrl    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Keystroke {
   id         Int      @id @default(autoincrement())
   userId     Int
   timestamp  DateTime @default(now())
-  keyPressed String
+  eventType  String
+  details    String?
+  isCheating Boolean?
+  riskScore  Float?
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model MouseMovement {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  timestamp    DateTime @default(now())
+  xPos         Int
+  yPos         Int
+  isCheating   Boolean?
+  movementType String?
+  riskScore    Float?
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model TabSwitch {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  timestamp  DateTime @default(now())
+  tabUrl     String
+  isCheating Boolean?
+  riskScore  Float?
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Keystroke {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  timestamp     DateTime @default(now())
+  keyPressed    String
+  isCheating    Boolean?
+  riskScore     Float?
+  typingPattern String?
+  typingSpeed   Float?
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ExamSubmission {
   id          Int      @id @default(autoincrement())
   userId      Int
   score       Float
-  timeSpent   Int // in seconds
-  answers     String // JSON string of answers
+  timeSpent   Int
   submittedAt DateTime @default(now())
+  isCheating  Boolean?
+  riskScore   Float?
+  answers     Json
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
-  
+
+model AnomalyDetection {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  timestamp  DateTime @default(now())
+  featureSet Json
+  riskScore  Float
+  isCheating Boolean
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
