@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Question {
+  id          Int           @id @default(autoincrement())
+  text        String
+  language    String        @default("Python")
+  constraints String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Comparison  Comparison[]
+  LLMSolution LLMSolution[]
+}
+
+model LLMSolution {
+  id         Int      @id @default(autoincrement())
+  questionId Int
+  llmName    String
+  solution   String
+  metrics    Json?    @default("{}")
+  timestamp  DateTime @default(now())
+  question   Question @relation(fields: [questionId], references: [id])
+}
+
+model Comparison {
+  id                Int      @id @default(autoincrement())
+  questionId        Int
+  candidateId       String
+  candidateSolution String
+  similarityScores  Json
+  timestamp         DateTime @default(now())
+  question          Question @relation(fields: [questionId], references: [id])
+}
