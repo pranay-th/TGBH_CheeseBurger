@@ -313,27 +313,93 @@ export default function ExamPage() {
         }
     };
 
-    const handleSubmit = async () => {
-        // Here you would normally submit to an API
-        setSubmitted(true);
+    const handleQuestionSubmit = async () => {
+        if (!userId || !socket) return;
 
-        // For demo purposes, we're just logging
-        console.log('Exam submitted with answers:', answers);
+        const currentAnswer = answers[currentQuestion] || '';
 
-        // Track the submission as an event
         try {
-            await fetch('/api/event', {
+            // Log the submission event via WebSocket
+            socket.send(JSON.stringify({
+                type: 'questionSubmit',
+                userId: userId,
+                questionId: questions[currentQuestion].id,
+                answer: currentAnswer,
+            }));
+
+            // Save the answer to the database via the API route
+            const response = await fetch('/api/exam', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    type: 'EXAM_SUBMIT',
-                    details: `Exam completed with ${Object.keys(answers).length} questions answered`
+                    action: 'submitAnswer',
+                    userId,
+                    questionId: currentQuestion,
+                    answer: currentAnswer,
+                    timeSpent: 60 * 60 - timeLeft,
                 }),
             });
+
+            if (!response.ok) {
+                throw new Error('Failed to submit answer');
+            }
+
+            console.log('Answer submitted:', currentAnswer);
+
+            // Move to the next question
+            if (currentQuestion < questions.length - 1) {
+                setCurrentQuestion(currentQuestion + 1);
+            } else {
+                // If it's the last question, submit the exam
+                handleSubmit();
+            }
         } catch (error) {
-            console.error('Error logging event:', error);
+            console.error('Error submitting answer:', error);
+        }
+    };
+
+    const handleSubmit = async () => {
+        try {
+            // Save all answers to the database via the API route
+            const response = await fetch('/api/exam', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'submitCode',
+                    userId,
+                    answers,
+                    timeSpent: 60 * 60 - timeLeft,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to submit exam');
+            }
+
+            console.log('Exam submitted with answers:', answers);
+            setSubmitted(true);
+
+            // Track the submission as an event
+            try {
+                await fetch('/api/event', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        type: 'EXAM_SUBMIT',
+                        details: `Exam completed with ${Object.keys(answers).length} questions answered`
+                    }),
+                });
+            } catch (error) {
+                console.error('Error logging event:', error);
+            }
+        } catch (error) {
+            console.error('Error submitting exam:', error);
         }
     };
 
@@ -354,6 +420,10 @@ export default function ExamPage() {
     }
 
     const question = questions[currentQuestion];
+
+    if (!question) {
+        return <div className="flex justify-center items-center h-screen">Loading question...</div>;
+    }
 
     return (
         <main className="flex flex-col min-h-screen bg-gray-900 text-white">
@@ -495,6 +565,14 @@ export default function ExamPage() {
                         </button>
 
                         <div className="flex space-x-4">
+                            {/* Add a Submit button for the current question */}
+                            <button
+                                onClick={handleQuestionSubmit}
+                                className="px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                            >
+                                Submit Question
+                            </button>
+
                             {currentQuestion < questions.length - 1 ? (
                                 <button
                                     onClick={handleNextQuestion}

@@ -90,6 +90,7 @@ function maxSubArray(nums) {
     }
 ];
 
+
 export async function GET(request: NextRequest) {
     try {
         const cookieStore = await cookies();
@@ -138,42 +139,74 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const { answers, timeSpent } = await request.json();
+        const { action, answers, timeSpent, questionId, answer } = await request.json();
 
-        // Log the code submissions
-        await prisma.eventLog.create({
-            data: {
-                userId: parseInt(userId),
-                eventType: 'CODE_SUBMISSION',
-                details: JSON.stringify({
-                    answers,
-                    timeSpent,
-                    submittedAt: new Date().toISOString()
-                })
-            }
-        });
+        switch (action) {
+            case 'submitCode':
+                // Handle code submission (existing logic)
+                await prisma.eventLog.create({
+                    data: {
+                        userId: parseInt(userId),
+                        eventType: 'CODE_SUBMISSION',
+                        details: JSON.stringify({
+                            answers,
+                            timeSpent,
+                            submittedAt: new Date().toISOString(),
+                        }),
+                    },
+                });
 
-        const score = calculateScore(answers);
+                const score = calculateScore(answers);
 
-        const submission = await prisma.examSubmission.create({
-            data: {
-            userId: parseInt(userId),
-            score: score,
-            timeSpent: timeSpent,
-            answers: JSON.stringify(answers)
-            }
-        });
+                const submission = await prisma.examSubmission.create({
+                    data: {
+                        userId: parseInt(userId),
+                        score: score,
+                        timeSpent: timeSpent,
+                        answers: JSON.stringify(answers),
+                    },
+                });
 
-        return NextResponse.json({
-            success: true,
-            data: {
-                message: 'Code submitted successfully'
-            }
-        });
+                return NextResponse.json({
+                    success: true,
+                    data: {
+                        message: 'Code submitted successfully',
+                    },
+                });
+
+            case 'submitAnswer':
+                // Handle question submission (new logic)
+                await prisma.examSubmission.upsert({
+                    where: { userId: parseInt(userId) },
+                    create: {
+                        userId: parseInt(userId),
+                        answers: { [questionId]: answer },
+                        timeSpent: timeSpent,
+                        score: 0, // You can calculate the score later
+                    },
+                    update: {
+                        answers: { [questionId]: answer },
+                        timeSpent: timeSpent,
+                    },
+                });
+
+                return NextResponse.json({
+                    success: true,
+                    data: {
+                        message: 'Answer submitted successfully',
+                    },
+                });
+
+            default:
+                return NextResponse.json(
+                    { success: false, message: 'Invalid action' },
+                    { status: 400 }
+                );
+        }
     } catch (error) {
-        console.error('Error submitting code:', error);
+        console.error('Error handling request:', error);
         return NextResponse.json(
-            { success: false, message: 'Failed to submit code' },
+            { success: false, message: 'Internal server error' },
             { status: 500 }
         );
     } finally {
