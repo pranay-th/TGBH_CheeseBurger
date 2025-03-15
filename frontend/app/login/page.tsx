@@ -17,12 +17,12 @@ export default function Login() {
 
     // Basic validation
     if (!username || username.trim().length < 3) {
-        setError('Please enter a valid username');
+        setError('Please enter a valid username (at least 3 characters)');
         return;
     }
 
     if (!password || password.length < 8) {
-        setError('Please enter a valid password');
+        setError('Please enter a valid password (at least 8 characters)');
         return;
     }
 
@@ -40,7 +40,17 @@ export default function Login() {
             }),
         });
 
-        const data = await response.json();
+        // Debugging: Log raw response before processing
+        const rawText = await response.text();
+        console.log("Raw API Response:", rawText);
+
+        // Check if response is JSON
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            throw new Error(`Unexpected response: ${rawText}`);
+        }
+
+        const data = JSON.parse(rawText);
 
         if (!response.ok) {
             throw new Error(data.message || 'Login failed');
@@ -50,8 +60,8 @@ export default function Login() {
             router.push('/stream');
         }
     } catch (err) {
+        console.error('Login error:', err);
         setError(err instanceof Error ? err.message : 'An error occurred. Please try again.');
-        console.error(err);
     } finally {
         setLoading(false);
     }
@@ -126,4 +136,4 @@ export default function Login() {
       </div>
     </div>
   );
-}
+} 

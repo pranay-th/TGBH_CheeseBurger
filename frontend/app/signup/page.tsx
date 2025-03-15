@@ -1,4 +1,4 @@
-        'use client';
+'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -18,17 +18,27 @@ export default function Signup() {
 
         // Enhanced input validation
         if (!username || username.trim().length < 3) {
-            setError('Username must be at least 3 characters long');
+            setError('Username must be at least 3 characters long and cannot be empty spaces.');
             return;
         }
 
         if (!password || password.length < 8) {
-            setError('Password must be at least 8 characters long');
+            setError('Password must be at least 8 characters long.');
+            return;
+        }
+
+        // Check for password strength
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumbers = /\d/.test(password);
+        
+        if (!(hasUpperCase && hasLowerCase && hasNumbers)) {
+            setError('Password must include at least one uppercase letter, one lowercase letter, and one number');
             return;
         }
 
         if (password !== confirmPassword) {
-            setError('Passwords do not match');
+            setError('Passwords do not match.');
             return;
         }
 
@@ -46,14 +56,24 @@ export default function Signup() {
                 }),
             });
 
-            const data = await response.json();
+            // Debugging: Log raw response before processing
+            const rawText = await response.text();
+            console.log("Raw API Response:", rawText);
+
+            // Check if response is JSON
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                throw new Error(`Unexpected response: ${rawText}`);
+            }
+
+            const data = JSON.parse(rawText);
 
             if (!response.ok) {
                 throw new Error(data.message || 'Signup failed');
             }
 
             if (data.success) {
-                // After successful signup, log the user in automatically
+                // Auto-login after successful signup
                 const loginResponse = await fetch('/api/login', {
                     method: 'POST',
                     headers: {
@@ -62,18 +82,26 @@ export default function Signup() {
                     body: JSON.stringify({ username: username.trim(), password }),
                 });
 
-                const loginData = await loginResponse.json();
+                const loginRawText = await loginResponse.text();
+                console.log("Raw Login Response:", loginRawText);
+
+                const loginContentType = loginResponse.headers.get("content-type");
+                if (!loginContentType || !loginContentType.includes("application/json")) {
+                    throw new Error(`Unexpected login response: ${loginRawText}`);
+                }
+
+                const loginData = JSON.parse(loginRawText);
 
                 if (loginData.success) {
                     router.push('/stream');
                 } else {
-                    setError('Login after signup failed. Please try logging in manually.');
+                    setError('Signup successful, but auto-login failed. Try logging in manually.');
                     router.push('/login');
                 }
             }
         } catch (err) {
+            console.error('Signup error:', err);
             setError(err instanceof Error ? err.message : 'An error occurred. Please try again.');
-            console.error(err);
         } finally {
             setLoading(false);
         }
@@ -126,7 +154,7 @@ export default function Signup() {
                         />
                     </div>
 
-                    <>
+                    <div>
                         <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300">
                             Confirm Password
                         </label>
@@ -140,7 +168,7 @@ export default function Signup() {
                             className="mt-1 block w-full px-3 py-2 bg-white text-black border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             placeholder="Confirm your password"
                         />
-                    </>
+                    </div>
 
                     <div>
                         <button
@@ -164,4 +192,4 @@ export default function Signup() {
             </div>
         </div>
     );
-}
+} 

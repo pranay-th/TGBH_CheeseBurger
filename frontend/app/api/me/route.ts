@@ -1,32 +1,80 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../../prisma/client';
 
-const prisma = new PrismaClient();
+export async function GET(request: NextRequest) {
+    const headers = {
+        'Content-Type': 'application/json'
+    };
 
-export async function GET() {
     try {
-        const userCookies = await cookies();
-        const userId = userCookies.get('userId')?.value;
+        // Get the userId from cookies
+        const userId = request.cookies.get('userId')?.value;
 
         if (!userId) {
-            return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+            return new NextResponse(
+                JSON.stringify({ 
+                    success: false, 
+                    message: 'Not authenticated' 
+                }),
+                { status: 401, headers }
+            );
         }
 
-        const user = await prisma.user.findUnique({
-            where: { id: parseInt(userId) }
-        });
+        try {
+            // Parse userId as integer and handle invalid input
+            const userIdInt = parseInt(userId);
+            
+            if (isNaN(userIdInt)) {
+                return new NextResponse(
+                    JSON.stringify({ 
+                        success: false, 
+                        message: 'Invalid user ID format' 
+                    }),
+                    { status: 400, headers }
+                );
+            }
 
-        if (!user) {
-            return NextResponse.json({ error: 'User not found' }, { status: 404 });
+            const user = await prisma.user.findUnique({
+                where: { id: userIdInt }
+            });
+
+            if (!user) {
+                return new NextResponse(
+                    JSON.stringify({ 
+                        success: false, 
+                        message: 'User not found' 
+                    }),
+                    { status: 404, headers }
+                );
+            }
+
+            return new NextResponse(
+                JSON.stringify({
+                    success: true,
+                    id: user.id,
+                    username: user.username
+                }),
+                { status: 200, headers }
+            );
+        } catch (dbError) {
+            console.error('Database error fetching user:', dbError);
+            return new NextResponse(
+                JSON.stringify({ 
+                    success: false, 
+                    message: 'Database error fetching user' 
+                }),
+                { status: 500, headers }
+            );
         }
-
-        return NextResponse.json({
-            id: user.id,
-            username: user.username
-        });
     } catch (error) {
         console.error('Error fetching user:', error);
-        return NextResponse.json({ error: 'Server error' }, { status: 500 });
+        return new NextResponse(
+            JSON.stringify({ 
+                success: false, 
+                message: 'Server error' 
+            }),
+            { status: 500, headers }
+        );
     }
 }
