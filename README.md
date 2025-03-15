@@ -1,6 +1,6 @@
 
 ## Workflow Diagram
-![Image](https://github.com/user-attachments/assets/16710276-534d-4e20-9537-d2b31549d341)
+![Image](https://github.com/user-attachments/assets/78532143-4e73-4cc3-9819-29aff2d3b0b9)
 
 # Proctoring System: Cheating Analysis Workflow
 
