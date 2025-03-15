@@ -8,6 +8,15 @@ datasource db {
 }
 
 model User {
+  id               Int                @id @default(autoincrement())
+  username         String             @unique
+  password         String
+  AnomalyDetection AnomalyDetection[]
+  eventLogs        EventLog[]
+  ExamSubmission   ExamSubmission[]
+  keystrokes       Keystroke[]
+  mouseMovements   MouseMovement[]
+  tabSwitches      TabSwitch[]
   id             Int              @id @default(autoincrement())
   username       String           @unique
   password       String
@@ -20,6 +29,14 @@ model User {
 }
 
 model EventLog {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  timestamp  DateTime @default(now())
+  eventType  String
+  details    String?
+  isCheating Boolean?
+  riskScore  Float?
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   id          Int      @id @default(autoincrement())
   userId      Int
   timestamp   DateTime @default(now())
@@ -31,6 +48,15 @@ model EventLog {
 }
 
 model MouseMovement {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  timestamp    DateTime @default(now())
+  xPos         Int
+  yPos         Int
+  isCheating   Boolean?
+  movementType String?
+  riskScore    Float?
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   id             Int      @id @default(autoincrement())
   userId         Int
   timestamp      DateTime @default(now())
@@ -56,10 +82,25 @@ model AnomalyDetection {
   id         Int      @id @default(autoincrement())
   userId     Int
   timestamp  DateTime @default(now())
+  tabUrl     String
+  isCheating Boolean?
+  riskScore  Float?
   featureSet Json     // Stores features from Isolation Forest/Autoencoder
   riskScore  Float    // Final anomaly score (0-1 scale)
   isCheating Boolean  // Final label for detected anomalies
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Keystroke {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  timestamp     DateTime @default(now())
+  keyPressed    String
+  isCheating    Boolean?
+  riskScore     Float?
+  typingPattern String?
+  typingSpeed   Float?
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Keystroke {
@@ -75,6 +116,15 @@ model Keystroke {
 }
 
 model ExamSubmission {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  score       Float
+  timeSpent   Int
+  submittedAt DateTime @default(now())
+  isCheating  Boolean?
+  riskScore   Float?
+  answers     Json
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   id            Int      @id @default(autoincrement())
   userId        Int
   score         Float
@@ -84,4 +134,14 @@ model ExamSubmission {
   riskScore     Float?    // Tracks potential cheating during submission
   isCheating    Boolean?  // Final submission-level cheating flag
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AnomalyDetection {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  timestamp  DateTime @default(now())
+  featureSet Json
+  riskScore  Float
+  isCheating Boolean
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
