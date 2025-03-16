@@ -2,21 +2,19 @@ from typing import List, Dict, Any, Annotated, TypedDict
 import os
 import json
 from datetime import datetime
+import operator
 
 # LangChain and LangGraph imports
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.tools import tool
 from langchain_openai import ChatOpenAI
-from langchain_anthropic import ChatAnthropic
 
 import langgraph.graph as lg
 from langgraph.graph import END, StateGraph
-from langgraph.checkpoint.sqlite import SqliteSaver
 
 # Prisma integration
 from prisma import Prisma
-from prisma.models import Question, LLMSolution, Comparison
 
 # Environment variables
 import dotenv
@@ -49,7 +47,7 @@ class ComparisonResultType(TypedDict):
 
 class PipelineState(TypedDict):
     question: QuestionType
-    llm_solutions: Dict[str, str]
+    llm_solutions: Annotated[Dict[str, str], operator.or_]  # Merge dictionaries
     candidate_solution: str
     candidate_id: str
     similarity_scores: Dict[str, float]
@@ -62,21 +60,16 @@ class PipelineState(TypedDict):
 # Create a Prisma client as a global singleton
 prisma_client = Prisma()
 
-@tool
 async def connect_to_database() -> str:
     """Connect to the Neon PostgreSQL database via Prisma."""
     await prisma_client.connect()
     return "Connected to Neon PostgreSQL database"
 
-
-@tool
 async def disconnect_from_database() -> str:
     """Disconnect from the Neon PostgreSQL database."""
     await prisma_client.disconnect()
     return "Disconnected from Neon PostgreSQL database"
 
-
-@tool
 async def get_question_from_db(question_id: int) -> QuestionType:
     """Retrieve a specific programming question from the database."""
     question = await prisma_client.question.find_unique(
@@ -95,8 +88,6 @@ async def get_question_from_db(question_id: int) -> QuestionType:
         "constraints": question.constraints or ""
     }
 
-
-@tool
 async def store_llm_solution(solution: LLMSolutionType) -> str:
     """Store an LLM-generated solution in the database."""
     await prisma_client.llmsolution.create(
@@ -111,8 +102,6 @@ async def store_llm_solution(solution: LLMSolutionType) -> str:
     
     return f"Solution for {solution['llm_name']} stored successfully"
 
-
-@tool
 async def store_comparison_result(result: ComparisonResultType) -> str:
     """Store a comparison result in the database."""
     await prisma_client.comparison.create(
@@ -133,24 +122,14 @@ async def store_comparison_result(result: ComparisonResultType) -> str:
 def create_llm_toolkit():
     """Create LLM instances for code generation."""
     llms = {
-        "claude-3-opus": ChatAnthropic(
-            model="claude-3-opus-20240229",
-            temperature=0.2,
-            anthropic_api_key=os.getenv("ANTHROPIC_API_KEY")
-        ),
-        "claude-3-sonnet": ChatAnthropic(
-            model="claude-3-sonnet-20240229",
-            temperature=0.2,
-            anthropic_api_key=os.getenv("ANTHROPIC_API_KEY")
-        ),
         "gpt-4-turbo": ChatOpenAI(
-            model="gpt-4-turbo-preview",
+            model="gpt-4o-mini",
             temperature=0.2,
             openai_api_key=os.getenv("OPENAI_API_KEY")
         ),
         "gpt-3.5-turbo": ChatOpenAI(
-            model="gpt-3.5-turbo",
-            temperature=0.2,
+            model="gpt-4o-mini",
+            temperature=0.3,
             openai_api_key=os.getenv("OPENAI_API_KEY")
         )
     }
@@ -186,9 +165,6 @@ async def generate_solution(llm, state, llm_name):
         # Extract just the code
         solution = response.content
         
-        # Update state with the new solution
-        state["llm_solutions"][llm_name] = solution
-        
         # Store in database
         await store_llm_solution({
             "question_id": question["id"],
@@ -197,10 +173,14 @@ async def generate_solution(llm, state, llm_name):
             "timestamp": datetime.now().isoformat()
         })
         
-        return state
+        # Return only the new solution in the expected format
+        return {
+            "llm_solutions": {llm_name: solution}
+        }
     except Exception as e:
-        state["error"] = f"Error generating solution with {llm_name}: {str(e)}"
-        return state
+        return {
+            "error": f"Error generating solution with {llm_name}: {str(e)}"
+        }
 
 
 # --------------------- CODE COMPARISON --------------------- #
@@ -277,44 +257,39 @@ def build_code_comparison_graph():
     # Define the graph
     workflow = StateGraph(PipelineState)
     
+    # Add a start node
+    workflow.add_node("start", lambda x: x)
+    
     # Add generate solution nodes for each LLM
     for llm_name, llm in llm_toolkit.items():
-        workflow.add_node(f"generate_{llm_name}", lambda state, llm=llm, name=llm_name: generate_solution(llm, state, name))
+        async def generate_wrapper(state, llm=llm, name=llm_name):
+            return await generate_solution(llm, state, name)
+        
+        workflow.add_node(f"generate_{llm_name}", generate_wrapper)
     
     # Add comparison node
-    workflow.add_node("compare_solutions", compare_solutions)
+    async def compare_wrapper(state):
+        if len(state["llm_solutions"]) == len(create_llm_toolkit()):
+            return await compare_solutions(state)
+        return state
+    
+    workflow.add_node("compare_solutions", compare_wrapper)
     
     # Add disconnect node
-    workflow.add_node("disconnect", lambda state: disconnect_from_database() and state)
+    async def disconnect_wrapper(state):
+        await disconnect_from_database()
+        return state
+    
+    workflow.add_node("disconnect", disconnect_wrapper)
     
     # Define the edges
-    # From start to all generate nodes
     for llm_name in llm_toolkit.keys():
         workflow.add_edge("start", f"generate_{llm_name}")
+        workflow.add_edge(f"generate_{llm_name}", "compare_solutions")
     
-    # Conditional edge: when all LLM solutions are generated, move to comparison
-    def all_solutions_ready(state):
-        expected_llms = list(create_llm_toolkit().keys())
-        return set(expected_llms).issubset(set(state["llm_solutions"].keys()))
-    
-    # Connect all generate nodes to comparison when condition is met
-    for llm_name in llm_toolkit.keys():
-        workflow.add_conditional_edges(
-            f"generate_{llm_name}",
-            all_solutions_ready,
-            {
-                True: "compare_solutions",
-                False: END  # Wait for other LLMs to complete
-            }
-        )
-    
-    # From comparison to disconnect
     workflow.add_edge("compare_solutions", "disconnect")
-    
-    # From disconnect to end
     workflow.add_edge("disconnect", END)
     
-    # Set the entry point
     workflow.set_entry_point("start")
     
     return workflow.compile()
@@ -342,7 +317,8 @@ async def run_code_comparison_pipeline(
     graph = build_code_comparison_graph()
     
     # Set up the checkpoint saver
-    saver = SqliteSaver.from_conn_string("sqlite:///pipeline_checkpoints.db")
+
+    # saver = SqliteSaver.from_conn_string("sqlite:///pipeline_checkpoints.db")
     
     # Initialize the state
     initial_state = await initialize_state(
@@ -353,12 +329,13 @@ async def run_code_comparison_pipeline(
     
     # Run the graph with checkpointing
     result = await graph.ainvoke(
-        initial_state,
-        {
-            "configurable": {
-                "checkpoint": saver
-            }
-        }
+        initial_state
+        # ,
+        # {
+        #     # "configurable": {
+        #         "checkpoint": saver
+        #     }
+        # }
     )
     
     return result

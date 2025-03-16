@@ -1,9 +1,18 @@
+import os
+from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_ollama.llms import OllamaLLM
+from langchain_openai import ChatOpenAI
 from langchain_core.runnables import RunnablePassthrough
 
-# Load LLM Model
-llm = OllamaLLM(model="llama3", temperature=0.2)  # Lower temperature for more focused responses
+# Load environment variables
+load_dotenv()
+
+# Load OpenAI Model instead of Ollama
+llm = ChatOpenAI(
+    model="gpt-4o-mini",
+    temperature=0.2,
+    openai_api_key=os.getenv("OPENAI_API_KEY")
+)
 
 # Prompt Template for Comprehensive Hints
 prompt_template = ChatPromptTemplate.from_messages([
@@ -42,5 +51,10 @@ if __name__ == "__main__":
     difficulty = "Medium"
     current_progress = "Candidate has identified key features but is unsure how to select the most important ones for the model."
     hints = generate_hints(sample_problem, difficulty, current_progress)
-    print("\nGenerated Hints:\n")
-    print(hints)
+    # Extract just the content as a string
+    if hasattr(hints, 'content'):
+        print("\nGenerated Hints:\n")
+        print(hints.content)
+    else:
+        print("\nGenerated Hints:\n")
+        print(hints)  # Fallback to printing the whole object

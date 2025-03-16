@@ -1,0 +1,308 @@
+2025-03-16 05:38:03,536 - INFO - Security Audit Pipeline Initialized
+2025-03-16 05:38:58,485 - INFO - Security Audit Pipeline Initialized
+2025-03-16 05:39:36,188 - INFO - Security Audit Pipeline Initialized
+2025-03-16 05:39:50,930 - INFO - Security Audit Pipeline Initialized
+2025-03-16 05:40:14,798 - INFO - Security Audit Pipeline Initialized
+2025-03-16 05:40:14,816 - INFO - Initializing security audit with objective: Perform a comprehensive security assessment of 192.0.0.2. 
+    Identify open ports, discover hidden directories, and test for common web vulnerabilities 
+    including SQL injection. Ensure all tests are non-intrusive and respect the target scope.
+2025-03-16 05:40:22,997 - INFO - Initial task plan created with 4 tasks
+2025-03-16 05:40:22,999 - INFO - Executing task: nmap_scan:192.0.0.2
+2025-03-16 05:40:22,999 - INFO - Executing command for validated target 192.0.0.2: nmap -sV -oN nmap_192.0.0.2.txt 192.0.0.2
+2025-03-16 05:41:09,991 - INFO - Task completed in 46.99s: nmap_scan:192.0.0.2, success: True
+2025-03-16 05:41:18,834 - WARNING - Domain 192.0.0.2:5555 is outside allowed scope ['localhost']
+2025-03-16 05:41:18,835 - WARNING - Follow-up task for target 192.0.0.2:5555 rejected: outside scope ['localhost']
+2025-03-16 05:41:18,835 - WARNING - Domain 192.0.0.2:8080 is outside allowed scope ['localhost']
+2025-03-16 05:41:18,835 - WARNING - Follow-up task for target 192.0.0.2:8080 rejected: outside scope ['localhost']
+2025-03-16 05:41:18,835 - WARNING - Domain 192.0.0.2:3000 is outside allowed scope ['localhost']
+2025-03-16 05:41:18,835 - WARNING - Follow-up task for target 192.0.0.2:3000 rejected: outside scope ['localhost']
+2025-03-16 05:41:18,835 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:41:18,837 - INFO - Executing task: gobuster_scan:192.0.0.2
+2025-03-16 05:41:18,838 - INFO - Executing command for validated target 192.0.0.2: gobuster dir -u http://192.0.0.2 -w /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt -o gobuster_http_192.0.0.2.txt
+2025-03-16 05:41:18,880 - WARNING - Command failed (attempt 1/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:41:20,905 - WARNING - Command failed (attempt 2/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:41:24,917 - WARNING - Command failed (attempt 3/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:41:24,918 - INFO - Task completed in 6.08s: gobuster_scan:192.0.0.2, success: False
+2025-03-16 05:41:34,708 - WARNING - Domain 192.0.0.2:5555 is outside allowed scope ['localhost']
+2025-03-16 05:41:34,708 - WARNING - Follow-up task for target 192.0.0.2:5555 rejected: outside scope ['localhost']
+2025-03-16 05:41:34,708 - WARNING - Domain 192.0.0.2:8080 is outside allowed scope ['localhost']
+2025-03-16 05:41:34,708 - WARNING - Follow-up task for target 192.0.0.2:8080 rejected: outside scope ['localhost']
+2025-03-16 05:41:34,708 - INFO - Task nmap_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:41:34,708 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:41:34,709 - INFO - Executing task: ffuf_scan:192.0.0.2
+2025-03-16 05:41:34,709 - INFO - Executing command for validated target 192.0.0.2: ffuf -u http://192.0.0.2/FUZZ -w /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt -o ffuf_http_192.0.0.2.json -of json
+2025-03-16 05:41:34,739 - WARNING - Command failed (attempt 1/3): Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+
+2025-03-16 05:41:36,765 - WARNING - Command failed (attempt 2/3): Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+
+2025-03-16 05:41:40,777 - WARNING - Command failed (attempt 3/3): Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+
+2025-03-16 05:41:40,778 - INFO - Task completed in 6.07s: ffuf_scan:192.0.0.2, success: False
+2025-03-16 05:41:50,114 - WARNING - Domain 192.0.0.2:5432 is outside allowed scope ['localhost']
+2025-03-16 05:41:50,114 - WARNING - Follow-up task for target 192.0.0.2:5432 rejected: outside scope ['localhost']
+2025-03-16 05:41:50,114 - WARNING - Domain 192.0.0.2:5555 is outside allowed scope ['localhost']
+2025-03-16 05:41:50,114 - WARNING - Follow-up task for target 192.0.0.2:5555 rejected: outside scope ['localhost']
+2025-03-16 05:41:50,114 - WARNING - Domain 192.0.0.2:8080 is outside allowed scope ['localhost']
+2025-03-16 05:41:50,114 - WARNING - Follow-up task for target 192.0.0.2:8080 rejected: outside scope ['localhost']
+2025-03-16 05:41:50,114 - INFO - Task nmap_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:41:50,114 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:41:50,115 - INFO - Executing task: sqlmap_scan:192.0.0.2
+2025-03-16 05:41:50,115 - INFO - Executing command for validated target 192.0.0.2: sqlmap -u http://192.0.0.2 --batch --output-dir=sqlmap_results
+2025-03-16 05:41:50,728 - INFO - Task completed in 0.61s: sqlmap_scan:192.0.0.2, success: True
+2025-03-16 05:41:50,729 - INFO - Executing task: gobuster_scan:192.0.0.2
+2025-03-16 05:41:50,729 - INFO - Executing command for validated target 192.0.0.2: gobuster dir -u http://192.0.0.2 -w /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt -o gobuster_http_192.0.0.2.txt
+2025-03-16 05:41:50,735 - WARNING - Command failed (attempt 1/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:41:52,761 - WARNING - Command failed (attempt 2/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:41:56,787 - WARNING - Command failed (attempt 3/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:41:56,788 - INFO - Task completed in 6.06s: gobuster_scan:192.0.0.2, success: False
+2025-03-16 05:41:56,790 - INFO - Executing task: ffuf_scan:192.0.0.2
+2025-03-16 05:41:56,790 - INFO - Executing command for validated target 192.0.0.2: ffuf -u http://192.0.0.2/FUZZ -w /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt -o ffuf_http_192.0.0.2.json -of json
+2025-03-16 05:41:56,803 - WARNING - Command failed (attempt 1/3): Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+
+2025-03-16 05:41:58,830 - WARNING - Command failed (attempt 2/3): Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+
+2025-03-16 05:42:02,853 - WARNING - Command failed (attempt 3/3): Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+
+2025-03-16 05:42:02,853 - INFO - Task completed in 6.06s: ffuf_scan:192.0.0.2, success: False
+2025-03-16 05:42:02,855 - INFO - Executing task: gobuster_scan:192.0.0.2
+2025-03-16 05:42:02,855 - INFO - Executing command for validated target 192.0.0.2: gobuster dir -u http://192.0.0.2 -w /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt -o gobuster_http_192.0.0.2.txt
+2025-03-16 05:42:02,866 - WARNING - Command failed (attempt 1/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:42:04,881 - WARNING - Command failed (attempt 2/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:42:08,907 - WARNING - Command failed (attempt 3/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:42:08,907 - INFO - Task completed in 6.05s: gobuster_scan:192.0.0.2, success: False
+2025-03-16 05:42:08,910 - INFO - Executing task: ffuf_scan:192.0.0.2
+2025-03-16 05:42:08,910 - INFO - Executing command for validated target 192.0.0.2: ffuf -u http://192.0.0.2/FUZZ -w /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt -o ffuf_http_192.0.0.2.json -of json
+2025-03-16 05:42:08,924 - WARNING - Command failed (attempt 1/3): Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+
+2025-03-16 05:42:10,950 - WARNING - Command failed (attempt 2/3): Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+
+2025-03-16 05:42:14,967 - WARNING - Command failed (attempt 3/3): Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+
+2025-03-16 05:42:14,968 - INFO - Task completed in 6.06s: ffuf_scan:192.0.0.2, success: False
+2025-03-16 05:42:14,969 - INFO - Executing task: gobuster_scan:192.0.0.2
+2025-03-16 05:42:14,969 - INFO - Executing command for validated target 192.0.0.2: gobuster dir -u http://192.0.0.2 -w /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt -o gobuster_http_192.0.0.2.txt
+2025-03-16 05:42:14,977 - WARNING - Command failed (attempt 1/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:42:16,995 - WARNING - Command failed (attempt 2/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:42:21,020 - WARNING - Command failed (attempt 3/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:42:21,021 - INFO - Task completed in 6.05s: gobuster_scan:192.0.0.2, success: False
+2025-03-16 05:42:21,023 - INFO - Executing task: ffuf_scan:192.0.0.2
+2025-03-16 05:42:21,023 - INFO - Executing command for validated target 192.0.0.2: ffuf -u http://192.0.0.2/FUZZ -w /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt -o ffuf_http_192.0.0.2.json -of json
+2025-03-16 05:42:21,036 - WARNING - Command failed (attempt 1/3): Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+
+2025-03-16 05:42:23,062 - WARNING - Command failed (attempt 2/3): Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+
+2025-03-16 05:42:27,075 - WARNING - Command failed (attempt 3/3): Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+Encountered error(s): 1 errors occured.
+	* stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+
+2025-03-16 05:42:27,075 - INFO - Task completed in 6.05s: ffuf_scan:192.0.0.2, success: False
+2025-03-16 05:42:27,076 - INFO - Executing task: gobuster_scan:192.0.0.2
+2025-03-16 05:42:27,076 - INFO - Executing command for validated target 192.0.0.2: gobuster dir -u http://192.0.0.2 -w /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt -o gobuster_http_192.0.0.2.txt
+2025-03-16 05:42:27,082 - WARNING - Command failed (attempt 1/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:42:29,105 - WARNING - Command failed (attempt 2/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:42:33,123 - WARNING - Command failed (attempt 3/3): Error: error on parsing arguments: wordlist file "/Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt" does not exist: stat /Users/aagamchhajer/wordlists/SecLists/Discovery/Web-Content/common.txt: no such file or directory
+
+2025-03-16 05:42:33,124 - INFO - Task completed in 6.05s: gobuster_scan:192.0.0.2, success: False
+2025-03-16 05:42:33,126 - WARNING - Maximum steps reached, generating report
+2025-03-16 05:42:33,126 - INFO - Generating security report
+2025-03-16 05:44:41,643 - INFO - Security Audit Pipeline Initialized
+2025-03-16 05:44:41,652 - INFO - Initializing security audit with objective: Perform a comprehensive security assessment of 192.0.0.2. 
+    Identify open ports, discover hidden directories, and test for common web vulnerabilities 
+    including SQL injection. Ensure all tests are non-intrusive and respect the target scope.
+2025-03-16 05:44:48,003 - INFO - Initial task plan created with 4 tasks
+2025-03-16 05:44:48,004 - INFO - Executing task: nmap_scan:192.0.0.2
+2025-03-16 05:44:48,004 - INFO - Executing command for validated target 192.0.0.2: nmap -sV -oN nmap_192.0.0.2.txt 192.0.0.2
+2025-03-16 05:45:34,892 - INFO - Task completed in 46.89s: nmap_scan:192.0.0.2, success: True
+2025-03-16 05:45:45,178 - WARNING - Domain 192.0.0.2:5555 is outside allowed scope ['localhost']
+2025-03-16 05:45:45,178 - WARNING - Follow-up task for target 192.0.0.2:5555 rejected: outside scope ['localhost']
+2025-03-16 05:45:45,178 - WARNING - Domain 192.0.0.2:5432 is outside allowed scope ['localhost']
+2025-03-16 05:45:45,178 - WARNING - Follow-up task for target 192.0.0.2:5432 rejected: outside scope ['localhost']
+2025-03-16 05:45:45,179 - WARNING - Domain 192.0.0.2:8080 is outside allowed scope ['localhost']
+2025-03-16 05:45:45,179 - WARNING - Follow-up task for target 192.0.0.2:8080 rejected: outside scope ['localhost']
+2025-03-16 05:45:45,179 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:45:45,181 - INFO - Executing task: gobuster_scan:192.0.0.2
+2025-03-16 05:45:45,181 - INFO - Executing command for validated target 192.0.0.2: gobuster dir -u http://192.0.0.2 -w /Users/deekshaagrawal/TGBH_CheeseBurger/intelligence/app/wordlist.txt -o gobuster_http_192.0.0.2.txt
+2025-03-16 05:45:45,231 - WARNING - Command failed (attempt 1/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:45:47,256 - WARNING - Command failed (attempt 2/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:45:51,265 - WARNING - Command failed (attempt 3/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:45:51,265 - INFO - Task completed in 6.08s: gobuster_scan:192.0.0.2, success: False
+2025-03-16 05:46:00,815 - WARNING - Domain 192.0.0.2:5555 is outside allowed scope ['localhost']
+2025-03-16 05:46:00,815 - WARNING - Follow-up task for target 192.0.0.2:5555 rejected: outside scope ['localhost']
+2025-03-16 05:46:00,815 - WARNING - Domain 192.0.0.2:8080 is outside allowed scope ['localhost']
+2025-03-16 05:46:00,815 - WARNING - Follow-up task for target 192.0.0.2:8080 rejected: outside scope ['localhost']
+2025-03-16 05:46:00,816 - WARNING - Domain 192.0.0.2:3000 is outside allowed scope ['localhost']
+2025-03-16 05:46:00,816 - WARNING - Follow-up task for target 192.0.0.2:3000 rejected: outside scope ['localhost']
+2025-03-16 05:46:00,816 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:46:00,817 - INFO - Executing task: ffuf_scan:192.0.0.2
+2025-03-16 05:46:00,818 - INFO - Executing command for validated target 192.0.0.2: ffuf -u http://192.0.0.2/FUZZ -w /Users/deekshaagrawal/TGBH_CheeseBurger/intelligence/app/wordlist.txt -o ffuf_http_192.0.0.2.json -of json
+2025-03-16 05:46:01,119 - INFO - Task completed in 0.30s: ffuf_scan:192.0.0.2, success: True
+2025-03-16 05:46:09,870 - INFO - Task nmap_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:46:09,870 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:46:09,872 - INFO - Executing task: sqlmap_scan:192.0.0.2
+2025-03-16 05:46:09,872 - INFO - Executing command for validated target 192.0.0.2: sqlmap -u http://192.0.0.2 --batch --output-dir=sqlmap_results
+2025-03-16 05:46:10,437 - INFO - Task completed in 0.56s: sqlmap_scan:192.0.0.2, success: True
+2025-03-16 05:46:19,406 - INFO - Task nmap_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:46:19,407 - INFO - Task ffuf_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:46:19,407 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:46:19,408 - INFO - Executing task: gobuster_scan:192.0.0.2
+2025-03-16 05:46:19,408 - INFO - Executing command for validated target 192.0.0.2: gobuster dir -u http://192.0.0.2 -w /Users/deekshaagrawal/TGBH_CheeseBurger/intelligence/app/wordlist.txt -o gobuster_http_192.0.0.2.txt
+2025-03-16 05:46:19,443 - WARNING - Command failed (attempt 1/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:46:21,459 - WARNING - Command failed (attempt 2/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:46:25,467 - WARNING - Command failed (attempt 3/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:46:25,468 - INFO - Task completed in 6.06s: gobuster_scan:192.0.0.2, success: False
+2025-03-16 05:46:34,330 - INFO - Task nmap_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:46:34,331 - INFO - Task ffuf_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:46:34,331 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:46:34,333 - INFO - Executing task: gobuster_scan:192.0.0.2
+2025-03-16 05:46:34,333 - INFO - Executing command for validated target 192.0.0.2: gobuster dir -u http://192.0.0.2 -w /Users/deekshaagrawal/TGBH_CheeseBurger/intelligence/app/wordlist.txt -o gobuster_http_192.0.0.2.txt
+2025-03-16 05:46:34,348 - WARNING - Command failed (attempt 1/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:46:36,372 - WARNING - Command failed (attempt 2/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:46:40,396 - WARNING - Command failed (attempt 3/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:46:40,396 - INFO - Task completed in 6.06s: gobuster_scan:192.0.0.2, success: False
+2025-03-16 05:46:48,151 - INFO - Task nmap_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:46:48,152 - INFO - Task ffuf_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:46:48,152 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:46:48,153 - INFO - Executing task: gobuster_scan:192.0.0.2
+2025-03-16 05:46:48,153 - INFO - Executing command for validated target 192.0.0.2: gobuster dir -u http://192.0.0.2 -w /Users/deekshaagrawal/TGBH_CheeseBurger/intelligence/app/wordlist.txt -o gobuster_http_192.0.0.2.txt
+2025-03-16 05:46:48,165 - WARNING - Command failed (attempt 1/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:46:50,183 - WARNING - Command failed (attempt 2/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:46:54,207 - WARNING - Command failed (attempt 3/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:46:54,207 - INFO - Task completed in 6.05s: gobuster_scan:192.0.0.2, success: False
+2025-03-16 05:47:03,208 - INFO - Task nmap_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:47:03,208 - INFO - Task ffuf_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:47:03,208 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:47:03,210 - INFO - Executing task: gobuster_scan:192.0.0.2
+2025-03-16 05:47:03,210 - INFO - Executing command for validated target 192.0.0.2: gobuster dir -u http://192.0.0.2 -w /Users/deekshaagrawal/TGBH_CheeseBurger/intelligence/app/wordlist.txt -o gobuster_http_192.0.0.2.txt
+2025-03-16 05:47:03,228 - WARNING - Command failed (attempt 1/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:47:05,248 - WARNING - Command failed (attempt 2/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:47:09,264 - WARNING - Command failed (attempt 3/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:47:09,265 - INFO - Task completed in 6.05s: gobuster_scan:192.0.0.2, success: False
+2025-03-16 05:47:17,767 - INFO - Task nmap_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:47:17,767 - INFO - Task ffuf_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:47:17,767 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:47:17,769 - INFO - Executing task: gobuster_scan:192.0.0.2
+2025-03-16 05:47:17,769 - INFO - Executing command for validated target 192.0.0.2: gobuster dir -u http://192.0.0.2 -w /Users/deekshaagrawal/TGBH_CheeseBurger/intelligence/app/wordlist.txt -o gobuster_http_192.0.0.2.txt
+2025-03-16 05:47:17,786 - WARNING - Command failed (attempt 1/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:47:19,809 - WARNING - Command failed (attempt 2/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:47:23,835 - WARNING - Command failed (attempt 3/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:47:23,835 - INFO - Task completed in 6.07s: gobuster_scan:192.0.0.2, success: False
+2025-03-16 05:47:32,083 - INFO - Task nmap_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:47:32,084 - INFO - Task ffuf_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:47:32,084 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:47:32,086 - INFO - Executing task: gobuster_scan:192.0.0.2
+2025-03-16 05:47:32,086 - INFO - Executing command for validated target 192.0.0.2: gobuster dir -u http://192.0.0.2 -w /Users/deekshaagrawal/TGBH_CheeseBurger/intelligence/app/wordlist.txt -o gobuster_http_192.0.0.2.txt
+2025-03-16 05:47:32,104 - WARNING - Command failed (attempt 1/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:47:34,131 - WARNING - Command failed (attempt 2/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:47:38,151 - WARNING - Command failed (attempt 3/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:47:38,152 - INFO - Task completed in 6.07s: gobuster_scan:192.0.0.2, success: False
+2025-03-16 05:47:47,441 - INFO - Task nmap_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:47:47,442 - INFO - Task ffuf_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:47:47,442 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:47:47,443 - INFO - Executing task: gobuster_scan:192.0.0.2
+2025-03-16 05:47:47,443 - INFO - Executing command for validated target 192.0.0.2: gobuster dir -u http://192.0.0.2 -w /Users/deekshaagrawal/TGBH_CheeseBurger/intelligence/app/wordlist.txt -o gobuster_http_192.0.0.2.txt
+2025-03-16 05:47:47,458 - WARNING - Command failed (attempt 1/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:47:49,479 - WARNING - Command failed (attempt 2/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:47:53,493 - WARNING - Command failed (attempt 3/3): Error: error on running gobuster: unable to connect to http://192.0.0.2/: Get "http://192.0.0.2/": dial tcp 192.0.0.2:80: connect: connection refused
+
+2025-03-16 05:47:53,493 - INFO - Task completed in 6.05s: gobuster_scan:192.0.0.2, success: False
+2025-03-16 05:48:01,898 - INFO - Task nmap_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:48:01,899 - INFO - Task ffuf_scan:192.0.0.2 already executed successfully, skipping
+2025-03-16 05:48:01,899 - INFO - Added 0 follow-up tasks based on results analysis
+2025-03-16 05:48:01,899 - WARNING - Maximum steps reached, generating report
+2025-03-16 05:48:01,899 - INFO - Generating security report
+2025-03-16 05:48:18,778 - INFO - Security report generated and saved to security_report_20250316_054818.md

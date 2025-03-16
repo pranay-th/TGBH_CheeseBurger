@@ -42,7 +42,7 @@ export default function Home() {
               height={32}
               className="rounded-md"
             />
-            <span className="text-xl font-bold text-indigo-400">TGBH CheeseBurger</span>
+            <span className="text-xl font-bold text-indigo-400">The CheeseBurger</span>
           </div>
           
           <div className="flex items-center space-x-6">
@@ -93,7 +93,7 @@ export default function Home() {
       {/* Hero Section */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 text-center">
         <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
-          Welcome to TGBH CheeseBurger
+          Welcome to The CheeseBurger
         </h1>
         <p className="text-xl text-gray-300 max-w-2xl mb-8">
           Advanced coding assessment platform for educational environments. 
