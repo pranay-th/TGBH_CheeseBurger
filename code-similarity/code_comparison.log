@@ -300,3 +300,77 @@ prisma.errors.FieldNotFoundError: Could not find field at `createOneLLMSolution.
 2025-03-16 07:38:52,917 - INFO - All solutions ready, proceeding with comparison
 2025-03-16 07:38:52,917 - INFO - Starting solution comparison...
 2025-03-16 07:38:55,605 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 14:15:40,305 - INFO - Starting pipeline for question 1, candidate candidate123
+2025-03-16 14:15:40,305 - INFO - Building code comparison graph...
+2025-03-16 14:15:41,363 - INFO - Graph building completed
+2025-03-16 14:15:41,368 - INFO - Graph compiled successfully
+2025-03-16 14:15:41,368 - INFO - Initializing pipeline state...
+2025-03-16 14:15:41,368 - INFO - Attempting to connect to database...
+2025-03-16 14:15:43,821 - INFO - HTTP Request: GET http://localhost:1215/status "HTTP/1.1 200 OK"
+2025-03-16 14:15:43,822 - INFO - Successfully connected to database
+2025-03-16 14:15:44,287 - INFO - HTTP Request: POST http://localhost:1215/ "HTTP/1.1 200 OK"
+2025-03-16 14:15:44,297 - INFO - Executing graph...
+2025-03-16 14:15:44,300 - INFO - Executing generate node for gpt-4-turbo...
+2025-03-16 14:15:44,300 - INFO - Generating solution using gpt-4-turbo...
+2025-03-16 14:15:45,886 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 14:15:45,896 - INFO - Successfully generated solution with gpt-4-turbo
+2025-03-16 14:15:45,897 - INFO - Executing generate node for gpt-3.5-turbo...
+2025-03-16 14:15:45,897 - INFO - Generating solution using gpt-3.5-turbo...
+2025-03-16 14:15:47,328 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 14:15:47,329 - INFO - Successfully generated solution with gpt-3.5-turbo
+2025-03-16 14:15:47,332 - INFO - HTTP Request: POST http://localhost:1215/ "HTTP/1.1 200 OK"
+2025-03-16 14:15:47,332 - ERROR - Error generating solution with gpt-4-turbo: Could not find field at `createOneLLMSolution.data.questionId`
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 198, in generate_solution
+    await store_llm_solution({
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 108, in store_llm_solution
+    await prisma_client.llmsolution.create(
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\actions.py", line 1208, in create
+    resp = await self._client._execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\_base_client.py", line 543, in _execute
+    return await self._engine.query(builder.build(), tx_id=self._tx_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_query.py", line 402, in query
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 233, in request
+    return self._process_response_data(data=data, response=response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 87, in _process_response_data
+    return utils.handle_response_errors(response, errors_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\utils.py", line 175, in handle_response_errors
+    raise exc(error)
+prisma.errors.FieldNotFoundError: Could not find field at `createOneLLMSolution.data.questionId`
+2025-03-16 14:15:47,415 - INFO - Completed generate node for gpt-4-turbo
+2025-03-16 14:15:47,587 - INFO - HTTP Request: POST http://localhost:1215/ "HTTP/1.1 200 OK"
+2025-03-16 14:15:47,588 - ERROR - Error generating solution with gpt-3.5-turbo: Could not find field at `createOneLLMSolution.data.questionId`
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 198, in generate_solution
+    await store_llm_solution({
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 108, in store_llm_solution
+    await prisma_client.llmsolution.create(
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\actions.py", line 1208, in create
+    resp = await self._client._execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\_base_client.py", line 543, in _execute
+    return await self._engine.query(builder.build(), tx_id=self._tx_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_query.py", line 402, in query
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 233, in request
+    return self._process_response_data(data=data, response=response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 87, in _process_response_data
+    return utils.handle_response_errors(response, errors_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\utils.py", line 175, in handle_response_errors
+    raise exc(error)
+prisma.errors.FieldNotFoundError: Could not find field at `createOneLLMSolution.data.questionId`
+2025-03-16 14:15:47,589 - INFO - Completed generate node for gpt-3.5-turbo
+2025-03-16 14:15:47,590 - INFO - Executing comparison node...
+2025-03-16 14:15:48,579 - INFO - All solutions ready, proceeding with comparison
+2025-03-16 14:15:48,579 - INFO - Starting solution comparison...
+2025-03-16 14:15:50,963 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
