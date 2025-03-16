@@ -20,7 +20,7 @@ class ExamEnv(gym.Env):
         
         # Initialize WebDriver
         self.driver = webdriver.Chrome()
-        self.driver.get("http://localhost:3000/exam")
+        self.driver.get("http://localhost:3001/stream")
         time.sleep(3)
         
     def step(self, action):

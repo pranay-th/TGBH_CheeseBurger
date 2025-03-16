@@ -14,7 +14,7 @@ options.binary_location = "C:\\Program Files\\Google\\Chrome\\Application\\chrom
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 # Open the Exam Page
-exam_url = "http://localhost:3000/exam"  # Update if needed
+exam_url = "http://localhost:3001/stream"  # Update if needed
 driver.get(exam_url)
 time.sleep(3)  # Wait for the page to load
 
