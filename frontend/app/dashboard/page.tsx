@@ -23,7 +23,10 @@ export default function Dashboard() {
       console.error('Error fetching pentesting report:', error);
     }
   };
-
+  const question_text = "Write a function to calculate the nth Fibonacci number";
+  const candidate_code = "def fibonacci(n):\n    if n <= 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)";  
+  const language = "Python";
+  const constraints = "Use recursive approach";
   // Function to fetch code similarity report
   const fetchCodeSimilarityReport = async () => {
     try {
