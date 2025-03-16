@@ -1,0 +1,112 @@
+# Nmap 7.95 scan initiated Sun Mar 16 05:44:48 2025 as: nmap -sV -oN nmap_192.0.0.2.txt 192.0.0.2
+Nmap scan report for 192.0.0.2
+Host is up (0.000062s latency).
+Not shown: 994 closed tcp ports (conn-refused)
+PORT     STATE SERVICE    VERSION
+3000/tcp open  ppp?
+5000/tcp open  rtsp
+5432/tcp open  postgresql PostgreSQL DB 9.6.0 or later
+5555/tcp open  http       Node.js Express framework
+7000/tcp open  rtsp
+8080/tcp open  http-proxy
+4 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port3000-TCP:V=7.95%I=7%D=3/16%Time=67D61803%P=arm-apple-darwin24.2.0%r
+SF:(GetRequest,8E20,"HTTP/1\.1\x20200\x20OK\r\nVary:\x20RSC,\x20Next-Route
+SF:r-State-Tree,\x20Next-Router-Prefetch,\x20Next-Router-Segment-Prefetch,
+SF:\x20Accept-Encoding\r\nlink:\x20</_next/static/media/569ce4b8f30dc480-s
+SF:\.p\.woff2>;\x20rel=preload;\x20as=\"font\";\x20crossorigin=\"\";\x20ty
+SF:pe=\"font/woff2\",\x20</_next/static/media/93f479601ee12b01-s\.p\.woff2
+SF:>;\x20rel=preload;\x20as=\"font\";\x20crossorigin=\"\";\x20type=\"font/
+SF:woff2\",\x20</_next/static/css/app/layout\.css\?v=1742084099223>;\x20re
+SF:l=preload;\x20as=\"style\"\r\nCache-Control:\x20no-store,\x20must-reval
+SF:idate\r\nX-Powered-By:\x20Next\.js\r\nContent-Type:\x20text/html;\x20ch
+SF:arset=utf-8\r\nDate:\x20Sun,\x2016\x20Mar\x202025\x2000:14:59\x20GMT\r\
+SF:nConnection:\x20close\r\n\r\n<!DOCTYPE\x20html><html\x20lang=\"en\"><he
+SF:ad><meta\x20charSet=\"utf-8\"/><meta\x20name=\"viewport\"\x20content=\"
+SF:width=device-width,\x20initial-scale=1\"/><link\x20rel=\"stylesheet\"\x
+SF:20href=\"/_next/static/css/app/layout\.css\?v=1742084099223\"\x20data-p
+SF:recedence=\"next_static/css/app/layout\.css\"/><link\x20rel=\"preload\"
+SF:\x20as=\"script\"\x20fetchPriority=\"low\"\x20href=")%r(Help,2F,"HTTP/1
+SF:\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\n\r\n")%r(NCP,2F
+SF:,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\n\r\n")%
+SF:r(HTTPOptions,AB,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nvary:\x20RSC,\x
+SF:20Next-Router-State-Tree,\x20Next-Router-Prefetch,\x20Next-Router-Segme
+SF:nt-Prefetch\r\nDate:\x20Sun,\x2016\x20Mar\x202025\x2000:14:59\x20GMT\r\
+SF:nConnection:\x20close\r\n\r\n")%r(RTSPRequest,AB,"HTTP/1\.1\x20400\x20B
+SF:ad\x20Request\r\nvary:\x20RSC,\x20Next-Router-State-Tree,\x20Next-Route
+SF:r-Prefetch,\x20Next-Router-Segment-Prefetch\r\nDate:\x20Sun,\x2016\x20M
+SF:ar\x202025\x2000:14:59\x20GMT\r\nConnection:\x20close\r\n\r\n")%r(RPCCh
+SF:eck,2F,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\n\
+SF:r\n")%r(DNSVersionBindReqTCP,2F,"HTTP/1\.1\x20400\x20Bad\x20Request\r\n
+SF:Connection:\x20close\r\n\r\n")%r(DNSStatusRequestTCP,2F,"HTTP/1\.1\x204
+SF:00\x20Bad\x20Request\r\nConnection:\x20close\r\n\r\n");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port5000-TCP:V=7.95%I=7%D=3/16%Time=67D617FE%P=arm-apple-darwin24.2.0%r
+SF:(GetRequest,90,"HTTP/1\.1\x20403\x20Forbidden\r\nContent-Length:\x200\r
+SF:\nServer:\x20AirTunes/800\.74\.5\r\nX-Apple-ProcessingTime:\x201\r\nX-A
+SF:pple-RequestReceivedTimestamp:\x20796517272\r\n\r\n")%r(RTSPRequest,90,
+SF:"RTSP/1\.0\x20403\x20Forbidden\r\nContent-Length:\x200\r\nServer:\x20Ai
+SF:rTunes/800\.74\.5\r\nX-Apple-ProcessingTime:\x201\r\nX-Apple-RequestRec
+SF:eivedTimestamp:\x20796517286\r\n\r\n")%r(HTTPOptions,90,"HTTP/1\.1\x204
+SF:03\x20Forbidden\r\nContent-Length:\x200\r\nServer:\x20AirTunes/800\.74\
+SF:.5\r\nX-Apple-ProcessingTime:\x200\r\nX-Apple-RequestReceivedTimestamp:
+SF:\x20796522286\r\n\r\n")%r(FourOhFourRequest,90,"HTTP/1\.1\x20403\x20For
+SF:bidden\r\nContent-Length:\x200\r\nServer:\x20AirTunes/800\.74\.5\r\nX-A
+SF:pple-ProcessingTime:\x200\r\nX-Apple-RequestReceivedTimestamp:\x2079652
+SF:2290\r\n\r\n")%r(SIPOptions,A2,"RTSP/1\.0\x20403\x20Forbidden\r\nConten
+SF:t-Length:\x200\r\nServer:\x20AirTunes/800\.74\.5\r\nCSeq:\x2042\x20OPTI
+SF:ONS\r\nX-Apple-ProcessingTime:\x200\r\nX-Apple-RequestReceivedTimestamp
+SF::\x20796522293\r\n\r\n");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port7000-TCP:V=7.95%I=7%D=3/16%Time=67D61803%P=arm-apple-darwin24.2.0%r
+SF:(RTSPRequest,90,"RTSP/1\.0\x20403\x20Forbidden\r\nContent-Length:\x200\
+SF:r\nServer:\x20AirTunes/800\.74\.5\r\nX-Apple-ProcessingTime:\x201\r\nX-
+SF:Apple-RequestReceivedTimestamp:\x20796517251\r\n\r\n")%r(GetRequest,90,
+SF:"HTTP/1\.1\x20403\x20Forbidden\r\nContent-Length:\x200\r\nServer:\x20Ai
+SF:rTunes/800\.74\.5\r\nX-Apple-ProcessingTime:\x200\r\nX-Apple-RequestRec
+SF:eivedTimestamp:\x20796522256\r\n\r\n")%r(HTTPOptions,90,"HTTP/1\.1\x204
+SF:03\x20Forbidden\r\nContent-Length:\x200\r\nServer:\x20AirTunes/800\.74\
+SF:.5\r\nX-Apple-ProcessingTime:\x200\r\nX-Apple-RequestReceivedTimestamp:
+SF:\x20796522266\r\n\r\n")%r(FourOhFourRequest,90,"HTTP/1\.1\x20403\x20For
+SF:bidden\r\nContent-Length:\x200\r\nServer:\x20AirTunes/800\.74\.5\r\nX-A
+SF:pple-ProcessingTime:\x200\r\nX-Apple-RequestReceivedTimestamp:\x2079652
+SF:2271\r\n\r\n")%r(SIPOptions,A2,"RTSP/1\.0\x20403\x20Forbidden\r\nConten
+SF:t-Length:\x200\r\nServer:\x20AirTunes/800\.74\.5\r\nCSeq:\x2042\x20OPTI
+SF:ONS\r\nX-Apple-ProcessingTime:\x200\r\nX-Apple-RequestReceivedTimestamp
+SF::\x20796522280\r\n\r\n");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port8080-TCP:V=7.95%I=7%D=3/16%Time=67D617FE%P=arm-apple-darwin24.2.0%r
+SF:(GetRequest,2F,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20cl
+SF:ose\r\n\r\n")%r(HTTPOptions,2F,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:onnection:\x20close\r\n\r\n")%r(RTSPRequest,3E,"HTTP/1\.1\x20505\x20HTT
+SF:P\x20Version\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n")%r(Fo
+SF:urOhFourRequest,2F,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nConnection:\x
+SF:20close\r\n\r\n")%r(Socks5,3E,"HTTP/1\.1\x20505\x20HTTP\x20Version\x20N
+SF:ot\x20Supported\r\nConnection:\x20close\r\n\r\n")%r(Socks4,3E,"HTTP/1\.
+SF:1\x20505\x20HTTP\x20Version\x20Not\x20Supported\r\nConnection:\x20close
+SF:\r\n\r\n")%r(RPCCheck,3E,"HTTP/1\.1\x20505\x20HTTP\x20Version\x20Not\x2
+SF:0Supported\r\nConnection:\x20close\r\n\r\n")%r(DNSVersionBindReqTCP,3E,
+SF:"HTTP/1\.1\x20505\x20HTTP\x20Version\x20Not\x20Supported\r\nConnection:
+SF:\x20close\r\n\r\n")%r(DNSStatusRequestTCP,3E,"HTTP/1\.1\x20505\x20HTTP\
+SF:x20Version\x20Not\x20Supported\r\nConnection:\x20close\r\n\r\n")%r(SSLS
+SF:essionReq,3E,"HTTP/1\.1\x20505\x20HTTP\x20Version\x20Not\x20Supported\r
+SF:\nConnection:\x20close\r\n\r\n")%r(TerminalServerCookie,3E,"HTTP/1\.1\x
+SF:20505\x20HTTP\x20Version\x20Not\x20Supported\r\nConnection:\x20close\r\
+SF:n\r\n")%r(TLSSessionReq,3E,"HTTP/1\.1\x20505\x20HTTP\x20Version\x20Not\
+SF:x20Supported\r\nConnection:\x20close\r\n\r\n")%r(Kerberos,3E,"HTTP/1\.1
+SF:\x20505\x20HTTP\x20Version\x20Not\x20Supported\r\nConnection:\x20close\
+SF:r\n\r\n")%r(SMBProgNeg,3E,"HTTP/1\.1\x20505\x20HTTP\x20Version\x20Not\x
+SF:20Supported\r\nConnection:\x20close\r\n\r\n")%r(X11Probe,3E,"HTTP/1\.1\
+SF:x20505\x20HTTP\x20Version\x20Not\x20Supported\r\nConnection:\x20close\r
+SF:\n\r\n")%r(LPDString,3E,"HTTP/1\.1\x20505\x20HTTP\x20Version\x20Not\x20
+SF:Supported\r\nConnection:\x20close\r\n\r\n")%r(LDAPSearchReq,3E,"HTTP/1\
+SF:.1\x20505\x20HTTP\x20Version\x20Not\x20Supported\r\nConnection:\x20clos
+SF:e\r\n\r\n")%r(LDAPBindReq,3E,"HTTP/1\.1\x20505\x20HTTP\x20Version\x20No
+SF:t\x20Supported\r\nConnection:\x20close\r\n\r\n")%r(SIPOptions,2F,"HTTP/
+SF:1\.1\x20400\x20Bad\x20Request\r\nConnection:\x20close\r\n\r\n")%r(LANDe
+SF:sk-RC,3E,"HTTP/1\.1\x20505\x20HTTP\x20Version\x20Not\x20Supported\r\nCo
+SF:nnection:\x20close\r\n\r\n");
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sun Mar 16 05:45:34 2025 -- 1 IP address (1 host up) scanned in 46.84 seconds

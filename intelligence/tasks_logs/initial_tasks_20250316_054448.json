@@ -1,0 +1,38 @@
+{
+  "timestamp": "20250316_054448",
+  "objective": "Perform a comprehensive security assessment of 192.0.0.2. \n    Identify open ports, discover hidden directories, and test for common web vulnerabilities \n    including SQL injection. Ensure all tests are non-intrusive and respect the target scope.",
+  "target_scope": {
+    "allowed_domains": [
+      "localhost"
+    ],
+    "allowed_ip_ranges": [
+      "192.0.0.2/32"
+    ]
+  },
+  "tasks": [
+    {
+      "task_type": "nmap_scan",
+      "target": "192.0.0.2",
+      "description": "Perform a scan to identify open ports and services running on the target.",
+      "priority": 1
+    },
+    {
+      "task_type": "gobuster_scan",
+      "target": "192.0.0.2",
+      "description": "Use Gobuster to discover hidden directories and files on the web server.",
+      "priority": 2
+    },
+    {
+      "task_type": "ffuf_scan",
+      "target": "192.0.0.2",
+      "description": "Utilize FFUF to perform a fuzzing attack to find additional hidden endpoints and resources.",
+      "priority": 3
+    },
+    {
+      "task_type": "sqlmap_scan",
+      "target": "192.0.0.2",
+      "description": "Test for SQL injection vulnerabilities on the web application using SQLMap.",
+      "priority": 4
+    }
+  ]
+}

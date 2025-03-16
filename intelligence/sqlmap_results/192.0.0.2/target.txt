@@ -1,0 +1,1 @@
+http://192.0.0.2 (GET)  # /opt/homebrew/bin/sqlmap -u http://192.0.0.2 --batch --output-dir=sqlmap_results
