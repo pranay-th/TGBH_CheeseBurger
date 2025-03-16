@@ -1,5 +1,5 @@
 'use client';
-
+import axios from 'axios';
 import { useState, useEffect } from "react";
 
 export default function Dashboard() {
@@ -7,17 +7,18 @@ export default function Dashboard() {
   const [codeSimilarityReport, setCodeSimilarityReport] = useState("");
 
   // Function to fetch pentesting report
+ 
+
   const fetchPentestingReport = async () => {
     try {
-      const response = await fetch('http://localhost:5050/api/pentesting', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
-      const reportResponse = await fetch(data.reportPath);
-      const reportText = await reportResponse.text();
+      // First API call to get the report path
+      const response = await axios.post('http://localhost:5050/api/pentesting');
+      const { reportPath } = response.data;
+  
+      // Second API call to fetch the content of the report
+      const reportResponse = await axios.get(reportPath);
+      const reportText = reportResponse.data;
+  
       setPentestingReport(reportText);
     } catch (error) {
       console.error('Error fetching pentesting report:', error);
