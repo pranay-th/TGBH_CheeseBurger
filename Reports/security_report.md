@@ -1,4 +1,4 @@
-# Security Audit Report for 192.0.0.2
+# Security Audit Report for Proctoring Environment
 
 ## Executive Summary
 This report summarizes the findings from the security audit conducted on the IP address 192.0.0.2. The audit focused on identifying open ports, hidden directories, and common web vulnerabilities, including SQL injection. The findings are categorized by risk level: critical, moderate, and low.
