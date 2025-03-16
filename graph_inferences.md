@@ -4,7 +4,7 @@
 
 ### Activity Timeline
 
-![Activity Timeline](tab_switch_visuals\activity_timeline.png)
+![Activity Timeline](./tab_switch_visuals/)
 
 **AI Analysis:**
 
@@ -32,7 +32,7 @@ These patterns can suggest several things about user behavior:
 
 - The slight increase around 3 PM could indicate a midday lull when users are at work or school and not using the service. Alternatively, it might suggest that there is some content or event that has captured user attention during this time period.
 
-The spike at 11 AM appears to be unusual as it deviates significantly from the regular activity level. This could indicate a promotional event, an unexpected in-game incident, or some other unforeseen occurrence that has attracted a large number of users to the application or game during this time period. Further investigation would be necessary to understand the cause of this spike and its implications for future planning or product development. 
+The spike at 11 AM appears to be unusual as it deviates significantly from the regular activity level. This could indicate a promotional event, an unexpected in-game incident, or some other unforeseen occurrence that has attracted a large number of users to the application or game during this time period. Further investigation would be necessary to understand the cause of this spike and its implications for future planning or product development.
 
 ### Hourly Polar Chart
 
@@ -55,7 +55,7 @@ Anomalies that might warrant further investigation include:
 2. The relative consistency between 10 PM and 6 AM/PM. While this might suggest that there is some form of ongoing activity, it's also possible that the chart is not representative of an average day. For example, it could be a snapshot from one specific day when activity was skewed towards these times.
 3. The small peaks in the morning (between 5 AM and 7 AM) and evening (between 5 PM and 7 PM). These are less pronounced than the spikes at 3 AM/PM and 6 AM/PM, but could indicate smaller sub-peaks within the larger cycles of activity.
 
-These patterns suggest that certain activities or systems might be primarily used during the early morning hours and in the late evening/early morning hours, with a brief period of reduced activity during the middle of the night/day. This might imply that many users have standard work hours and that there is a consistent level of activity throughout most of the day, despite some larger peaks and valleys. 
+These patterns suggest that certain activities or systems might be primarily used during the early morning hours and in the late evening/early morning hours, with a brief period of reduced activity during the middle of the night/day. This might imply that many users have standard work hours and that there is a consistent level of activity throughout most of the day, despite some larger peaks and valleys.
 
 ## Keystroke Visuals
 
@@ -83,5 +83,5 @@ These patterns suggest that certain activities or systems might be primarily use
 
 8. CapitaLization (keys A to Z) - The caps lock key has a relatively large slice compared to the lowercase letter keys, which could indicate that users frequently switch between upper and lower case letters for emphasis, style, or to enter special commands where capitalization is important.
 
-In summary, the most frequently used keys are the spacebar and shift keys, indicating common typing patterns such as spacing out words, switching between upper and lower case letters, and using contractions or possessive forms. Number keys are also used, but not as commonly as the spacebar or shift keys. Function and modifier keys see less use, suggesting that users primarily rely on them for specific functions rather than general navigation. 
+In summary, the most frequently used keys are the spacebar and shift keys, indicating common typing patterns such as spacing out words, switching between upper and lower case letters, and using contractions or possessive forms. Number keys are also used, but not as commonly as the spacebar or shift keys. Function and modifier keys see less use, suggesting that users primarily rely on them for specific functions rather than general navigation.
 
