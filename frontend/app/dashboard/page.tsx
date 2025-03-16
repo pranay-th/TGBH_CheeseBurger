@@ -32,9 +32,15 @@ export default function Dashboard() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ payload: 'your-payload-data' }),
+        body: JSON.stringify({ payload: {
+    "question_text": "Write a function to calculate the nth Fibonacci number",
+    "candidate_code": "def fibonacci(n):\n    if n <= 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)",
+    "language": "Python",
+    "constraints": "Use recursive approach"
+} }),
       });
       const data = await response.json();
+
       const reportResponse = await fetch(data.reportPath);
       const reportText = await reportResponse.text();
       setCodeSimilarityReport(reportText);
