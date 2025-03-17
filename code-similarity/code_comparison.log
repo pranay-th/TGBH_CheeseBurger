@@ -1,0 +1,376 @@
+2025-03-16 06:34:13,145 - INFO - Starting pipeline for question 1, candidate candidate123
+2025-03-16 06:34:13,145 - INFO - Building code comparison graph...
+2025-03-16 06:34:14,135 - INFO - Graph building completed
+2025-03-16 06:34:14,140 - INFO - Graph compiled successfully
+2025-03-16 06:34:14,140 - INFO - Initializing pipeline state...
+2025-03-16 06:34:14,140 - INFO - Attempting to connect to database...
+2025-03-16 06:34:16,676 - INFO - HTTP Request: GET http://localhost:52027/status "HTTP/1.1 200 OK"
+2025-03-16 06:34:16,677 - INFO - Successfully connected to database
+2025-03-16 06:34:17,339 - INFO - HTTP Request: POST http://localhost:52027/ "HTTP/1.1 200 OK"
+2025-03-16 06:34:17,350 - INFO - Executing graph...
+2025-03-16 06:34:17,353 - INFO - Executing generate node for gpt-4-turbo...
+2025-03-16 06:34:17,353 - INFO - Generating solution using gpt-4-turbo...
+2025-03-16 06:34:22,401 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 06:34:22,410 - INFO - Successfully generated solution with gpt-4-turbo
+2025-03-16 06:34:22,411 - INFO - Executing generate node for gpt-3.5-turbo...
+2025-03-16 06:34:22,411 - INFO - Generating solution using gpt-3.5-turbo...
+2025-03-16 06:34:24,069 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 06:34:24,071 - INFO - Successfully generated solution with gpt-3.5-turbo
+2025-03-16 06:34:24,330 - INFO - HTTP Request: POST http://localhost:52027/ "HTTP/1.1 200 OK"
+2025-03-16 06:34:24,331 - ERROR - Error generating solution with gpt-3.5-turbo: Unable to match input value to any allowed input type for the field. Parse errors: [`data.question`: A value is required but not set, Unable to match input value to any allowed input type for the field. Parse errors: [Invalid argument type. `metrics` should be of any of the following types: `NullableJsonNullValueInput`, Invalid argument type. `metrics` should be of any of the following types: `Json`]]
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 188, in generate_solution
+    await store_llm_solution({
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 108, in store_llm_solution
+    await prisma_client.llmsolution.create(
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\actions.py", line 1208, in create
+    resp = await self._client._execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\_base_client.py", line 543, in _execute
+    return await self._engine.query(builder.build(), tx_id=self._tx_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_query.py", line 402, in query
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 233, in request
+    return self._process_response_data(data=data, response=response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 87, in _process_response_data
+    return utils.handle_response_errors(response, errors_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\utils.py", line 163, in handle_response_errors
+    raise prisma_errors.MissingRequiredValueError(error)
+prisma.errors.MissingRequiredValueError: Unable to match input value to any allowed input type for the field. Parse errors: [`data.question`: A value is required but not set, Unable to match input value to any allowed input type for the field. Parse errors: [Invalid argument type. `metrics` should be of any of the following types: `NullableJsonNullValueInput`, Invalid argument type. `metrics` should be of any of the following types: `Json`]]
+2025-03-16 06:34:24,382 - INFO - Completed generate node for gpt-3.5-turbo
+2025-03-16 06:34:24,383 - INFO - HTTP Request: POST http://localhost:52027/ "HTTP/1.1 200 OK"
+2025-03-16 06:34:24,383 - ERROR - Error generating solution with gpt-4-turbo: Unable to match input value to any allowed input type for the field. Parse errors: [`data.question`: A value is required but not set, Unable to match input value to any allowed input type for the field. Parse errors: [Invalid argument type. `metrics` should be of any of the following types: `NullableJsonNullValueInput`, Invalid argument type. `metrics` should be of any of the following types: `Json`]]
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 188, in generate_solution
+    await store_llm_solution({
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 108, in store_llm_solution
+    await prisma_client.llmsolution.create(
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\actions.py", line 1208, in create
+    resp = await self._client._execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\_base_client.py", line 543, in _execute
+    return await self._engine.query(builder.build(), tx_id=self._tx_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_query.py", line 402, in query
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 233, in request
+    return self._process_response_data(data=data, response=response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 87, in _process_response_data
+    return utils.handle_response_errors(response, errors_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\utils.py", line 163, in handle_response_errors
+    raise prisma_errors.MissingRequiredValueError(error)
+prisma.errors.MissingRequiredValueError: Unable to match input value to any allowed input type for the field. Parse errors: [`data.question`: A value is required but not set, Unable to match input value to any allowed input type for the field. Parse errors: [Invalid argument type. `metrics` should be of any of the following types: `NullableJsonNullValueInput`, Invalid argument type. `metrics` should be of any of the following types: `Json`]]
+2025-03-16 06:34:24,384 - INFO - Completed generate node for gpt-4-turbo
+2025-03-16 07:23:37,144 - INFO - Starting pipeline for question 1, candidate candidate123
+2025-03-16 07:23:37,144 - INFO - Building code comparison graph...
+2025-03-16 07:23:38,111 - INFO - Graph building completed
+2025-03-16 07:23:38,116 - INFO - Graph compiled successfully
+2025-03-16 07:23:38,117 - INFO - Initializing pipeline state...
+2025-03-16 07:23:38,117 - INFO - Attempting to connect to database...
+2025-03-16 07:24:25,571 - INFO - Starting pipeline for question 1, candidate candidate123
+2025-03-16 07:24:25,571 - INFO - Building code comparison graph...
+2025-03-16 07:24:26,561 - INFO - Graph building completed
+2025-03-16 07:24:26,565 - INFO - Graph compiled successfully
+2025-03-16 07:24:26,566 - INFO - Initializing pipeline state...
+2025-03-16 07:24:26,566 - INFO - Attempting to connect to database...
+2025-03-16 07:24:29,966 - INFO - HTTP Request: GET http://localhost:28718/status "HTTP/1.1 200 OK"
+2025-03-16 07:24:29,966 - INFO - Successfully connected to database
+2025-03-16 07:24:30,605 - INFO - HTTP Request: POST http://localhost:28718/ "HTTP/1.1 200 OK"
+2025-03-16 07:24:30,606 - INFO - Executing graph...
+2025-03-16 07:24:30,609 - INFO - Executing generate node for gpt-4-turbo...
+2025-03-16 07:24:30,609 - INFO - Generating solution using gpt-4-turbo...
+2025-03-16 07:24:33,595 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 07:24:33,612 - INFO - Successfully generated solution with gpt-4-turbo
+2025-03-16 07:24:33,613 - INFO - Executing generate node for gpt-3.5-turbo...
+2025-03-16 07:24:33,613 - INFO - Generating solution using gpt-3.5-turbo...
+2025-03-16 07:24:35,348 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 07:24:35,350 - INFO - Successfully generated solution with gpt-3.5-turbo
+2025-03-16 07:24:35,363 - INFO - HTTP Request: POST http://localhost:28718/ "HTTP/1.1 200 OK"
+2025-03-16 07:24:35,363 - ERROR - Error generating solution with gpt-4-turbo: Could not find field at `createOneLLMSolution.data.questionId`
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 198, in generate_solution
+    await store_llm_solution({
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 108, in store_llm_solution
+    await prisma_client.llmsolution.create(
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\actions.py", line 1208, in create
+    resp = await self._client._execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\_base_client.py", line 543, in _execute
+    return await self._engine.query(builder.build(), tx_id=self._tx_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_query.py", line 402, in query
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 233, in request
+    return self._process_response_data(data=data, response=response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 87, in _process_response_data
+    return utils.handle_response_errors(response, errors_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\utils.py", line 175, in handle_response_errors
+    raise exc(error)
+prisma.errors.FieldNotFoundError: Could not find field at `createOneLLMSolution.data.questionId`
+2025-03-16 07:24:35,365 - INFO - Completed generate node for gpt-4-turbo
+2025-03-16 07:24:35,608 - INFO - HTTP Request: POST http://localhost:28718/ "HTTP/1.1 200 OK"
+2025-03-16 07:24:35,608 - ERROR - Error generating solution with gpt-3.5-turbo: Could not find field at `createOneLLMSolution.data.questionId`
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 198, in generate_solution
+    await store_llm_solution({
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 108, in store_llm_solution
+    await prisma_client.llmsolution.create(
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\actions.py", line 1208, in create
+    resp = await self._client._execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\_base_client.py", line 543, in _execute
+    return await self._engine.query(builder.build(), tx_id=self._tx_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_query.py", line 402, in query
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 233, in request
+    return self._process_response_data(data=data, response=response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 87, in _process_response_data
+    return utils.handle_response_errors(response, errors_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\utils.py", line 175, in handle_response_errors
+    raise exc(error)
+prisma.errors.FieldNotFoundError: Could not find field at `createOneLLMSolution.data.questionId`
+2025-03-16 07:24:35,609 - INFO - Completed generate node for gpt-3.5-turbo
+2025-03-16 07:24:35,610 - INFO - Executing comparison node...
+2025-03-16 07:24:36,533 - INFO - All solutions ready, proceeding with comparison
+2025-03-16 07:24:36,533 - INFO - Starting solution comparison...
+2025-03-16 07:24:36,533 - INFO - Similarity score for gpt-3.5-turbo: 0.0000
+2025-03-16 07:24:36,533 - INFO - Similarity score for gpt-4-turbo: 0.0000
+2025-03-16 07:24:36,546 - INFO - HTTP Request: POST http://localhost:28718/ "HTTP/1.1 200 OK"
+2025-03-16 07:34:14,811 - INFO - Starting pipeline for question 1, candidate candidate123
+2025-03-16 07:34:14,811 - INFO - Building code comparison graph...
+2025-03-16 07:34:15,781 - INFO - Graph building completed
+2025-03-16 07:34:15,786 - INFO - Graph compiled successfully
+2025-03-16 07:34:15,786 - INFO - Initializing pipeline state...
+2025-03-16 07:34:15,787 - INFO - Attempting to connect to database...
+2025-03-16 07:34:18,688 - INFO - HTTP Request: GET http://localhost:28901/status "HTTP/1.1 200 OK"
+2025-03-16 07:34:18,689 - INFO - Successfully connected to database
+2025-03-16 07:34:19,262 - INFO - HTTP Request: POST http://localhost:28901/ "HTTP/1.1 200 OK"
+2025-03-16 07:34:19,263 - INFO - Executing graph...
+2025-03-16 07:34:19,266 - INFO - Executing generate node for gpt-4-turbo...
+2025-03-16 07:34:19,266 - INFO - Generating solution using gpt-4-turbo...
+2025-03-16 07:34:21,266 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 07:34:21,280 - INFO - Successfully generated solution with gpt-4-turbo
+2025-03-16 07:34:21,280 - INFO - Executing generate node for gpt-3.5-turbo...
+2025-03-16 07:34:21,281 - INFO - Generating solution using gpt-3.5-turbo...
+2025-03-16 07:34:23,082 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 07:34:23,097 - INFO - Successfully generated solution with gpt-3.5-turbo
+2025-03-16 07:34:23,100 - INFO - HTTP Request: POST http://localhost:28901/ "HTTP/1.1 200 OK"
+2025-03-16 07:34:23,100 - ERROR - Error generating solution with gpt-4-turbo: Could not find field at `createOneLLMSolution.data.questionId`
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 198, in generate_solution
+    await store_llm_solution({
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 108, in store_llm_solution
+    await prisma_client.llmsolution.create(
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\actions.py", line 1208, in create
+    resp = await self._client._execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\_base_client.py", line 543, in _execute
+    return await self._engine.query(builder.build(), tx_id=self._tx_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_query.py", line 402, in query
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 233, in request
+    return self._process_response_data(data=data, response=response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 87, in _process_response_data
+    return utils.handle_response_errors(response, errors_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\utils.py", line 175, in handle_response_errors
+    raise exc(error)
+prisma.errors.FieldNotFoundError: Could not find field at `createOneLLMSolution.data.questionId`
+2025-03-16 07:34:23,103 - INFO - Completed generate node for gpt-4-turbo
+2025-03-16 07:34:23,367 - INFO - HTTP Request: POST http://localhost:28901/ "HTTP/1.1 200 OK"
+2025-03-16 07:34:23,368 - ERROR - Error generating solution with gpt-3.5-turbo: Could not find field at `createOneLLMSolution.data.questionId`
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 198, in generate_solution
+    await store_llm_solution({
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 108, in store_llm_solution
+    await prisma_client.llmsolution.create(
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\actions.py", line 1208, in create
+    resp = await self._client._execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\_base_client.py", line 543, in _execute
+    return await self._engine.query(builder.build(), tx_id=self._tx_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_query.py", line 402, in query
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 233, in request
+    return self._process_response_data(data=data, response=response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 87, in _process_response_data
+    return utils.handle_response_errors(response, errors_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\utils.py", line 175, in handle_response_errors
+    raise exc(error)
+prisma.errors.FieldNotFoundError: Could not find field at `createOneLLMSolution.data.questionId`
+2025-03-16 07:34:23,369 - INFO - Completed generate node for gpt-3.5-turbo
+2025-03-16 07:34:23,370 - INFO - Executing comparison node...
+2025-03-16 07:34:24,308 - INFO - All solutions ready, proceeding with comparison
+2025-03-16 07:34:24,309 - INFO - Starting solution comparison...
+2025-03-16 07:34:24,309 - INFO - Similarity score for gpt-3.5-turbo: 0.0000
+2025-03-16 07:34:24,309 - INFO - Similarity score for gpt-4-turbo: 0.0000
+2025-03-16 07:34:24,311 - INFO - HTTP Request: POST http://localhost:28901/ "HTTP/1.1 200 OK"
+2025-03-16 07:38:43,206 - INFO - Starting pipeline for question 1, candidate candidate123
+2025-03-16 07:38:43,207 - INFO - Building code comparison graph...
+2025-03-16 07:38:44,172 - INFO - Graph building completed
+2025-03-16 07:38:44,176 - INFO - Graph compiled successfully
+2025-03-16 07:38:44,177 - INFO - Initializing pipeline state...
+2025-03-16 07:38:44,177 - INFO - Attempting to connect to database...
+2025-03-16 07:38:46,721 - INFO - HTTP Request: GET http://localhost:29243/status "HTTP/1.1 200 OK"
+2025-03-16 07:38:46,721 - INFO - Successfully connected to database
+2025-03-16 07:38:47,269 - INFO - HTTP Request: POST http://localhost:29243/ "HTTP/1.1 200 OK"
+2025-03-16 07:38:47,270 - INFO - Executing graph...
+2025-03-16 07:38:47,274 - INFO - Executing generate node for gpt-4-turbo...
+2025-03-16 07:38:47,274 - INFO - Generating solution using gpt-4-turbo...
+2025-03-16 07:38:49,818 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 07:38:49,828 - INFO - Successfully generated solution with gpt-4-turbo
+2025-03-16 07:38:49,829 - INFO - Executing generate node for gpt-3.5-turbo...
+2025-03-16 07:38:49,829 - INFO - Generating solution using gpt-3.5-turbo...
+2025-03-16 07:38:51,747 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 07:38:51,749 - INFO - Successfully generated solution with gpt-3.5-turbo
+2025-03-16 07:38:51,752 - INFO - HTTP Request: POST http://localhost:29243/ "HTTP/1.1 200 OK"
+2025-03-16 07:38:51,752 - ERROR - Error generating solution with gpt-4-turbo: Could not find field at `createOneLLMSolution.data.questionId`
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 198, in generate_solution
+    await store_llm_solution({
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 108, in store_llm_solution
+    await prisma_client.llmsolution.create(
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\actions.py", line 1208, in create
+    resp = await self._client._execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\_base_client.py", line 543, in _execute
+    return await self._engine.query(builder.build(), tx_id=self._tx_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_query.py", line 402, in query
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 233, in request
+    return self._process_response_data(data=data, response=response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 87, in _process_response_data
+    return utils.handle_response_errors(response, errors_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\utils.py", line 175, in handle_response_errors
+    raise exc(error)
+prisma.errors.FieldNotFoundError: Could not find field at `createOneLLMSolution.data.questionId`
+2025-03-16 07:38:51,755 - INFO - Completed generate node for gpt-4-turbo
+2025-03-16 07:38:51,999 - INFO - HTTP Request: POST http://localhost:29243/ "HTTP/1.1 200 OK"
+2025-03-16 07:38:52,000 - ERROR - Error generating solution with gpt-3.5-turbo: Could not find field at `createOneLLMSolution.data.questionId`
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 198, in generate_solution
+    await store_llm_solution({
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 108, in store_llm_solution
+    await prisma_client.llmsolution.create(
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\actions.py", line 1208, in create
+    resp = await self._client._execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\_base_client.py", line 543, in _execute
+    return await self._engine.query(builder.build(), tx_id=self._tx_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_query.py", line 402, in query
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 233, in request
+    return self._process_response_data(data=data, response=response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 87, in _process_response_data
+    return utils.handle_response_errors(response, errors_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\utils.py", line 175, in handle_response_errors
+    raise exc(error)
+prisma.errors.FieldNotFoundError: Could not find field at `createOneLLMSolution.data.questionId`
+2025-03-16 07:38:52,000 - INFO - Completed generate node for gpt-3.5-turbo
+2025-03-16 07:38:52,001 - INFO - Executing comparison node...
+2025-03-16 07:38:52,917 - INFO - All solutions ready, proceeding with comparison
+2025-03-16 07:38:52,917 - INFO - Starting solution comparison...
+2025-03-16 07:38:55,605 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 14:15:40,305 - INFO - Starting pipeline for question 1, candidate candidate123
+2025-03-16 14:15:40,305 - INFO - Building code comparison graph...
+2025-03-16 14:15:41,363 - INFO - Graph building completed
+2025-03-16 14:15:41,368 - INFO - Graph compiled successfully
+2025-03-16 14:15:41,368 - INFO - Initializing pipeline state...
+2025-03-16 14:15:41,368 - INFO - Attempting to connect to database...
+2025-03-16 14:15:43,821 - INFO - HTTP Request: GET http://localhost:1215/status "HTTP/1.1 200 OK"
+2025-03-16 14:15:43,822 - INFO - Successfully connected to database
+2025-03-16 14:15:44,287 - INFO - HTTP Request: POST http://localhost:1215/ "HTTP/1.1 200 OK"
+2025-03-16 14:15:44,297 - INFO - Executing graph...
+2025-03-16 14:15:44,300 - INFO - Executing generate node for gpt-4-turbo...
+2025-03-16 14:15:44,300 - INFO - Generating solution using gpt-4-turbo...
+2025-03-16 14:15:45,886 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 14:15:45,896 - INFO - Successfully generated solution with gpt-4-turbo
+2025-03-16 14:15:45,897 - INFO - Executing generate node for gpt-3.5-turbo...
+2025-03-16 14:15:45,897 - INFO - Generating solution using gpt-3.5-turbo...
+2025-03-16 14:15:47,328 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-03-16 14:15:47,329 - INFO - Successfully generated solution with gpt-3.5-turbo
+2025-03-16 14:15:47,332 - INFO - HTTP Request: POST http://localhost:1215/ "HTTP/1.1 200 OK"
+2025-03-16 14:15:47,332 - ERROR - Error generating solution with gpt-4-turbo: Could not find field at `createOneLLMSolution.data.questionId`
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 198, in generate_solution
+    await store_llm_solution({
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 108, in store_llm_solution
+    await prisma_client.llmsolution.create(
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\actions.py", line 1208, in create
+    resp = await self._client._execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\_base_client.py", line 543, in _execute
+    return await self._engine.query(builder.build(), tx_id=self._tx_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_query.py", line 402, in query
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 233, in request
+    return self._process_response_data(data=data, response=response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 87, in _process_response_data
+    return utils.handle_response_errors(response, errors_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\utils.py", line 175, in handle_response_errors
+    raise exc(error)
+prisma.errors.FieldNotFoundError: Could not find field at `createOneLLMSolution.data.questionId`
+2025-03-16 14:15:47,415 - INFO - Completed generate node for gpt-4-turbo
+2025-03-16 14:15:47,587 - INFO - HTTP Request: POST http://localhost:1215/ "HTTP/1.1 200 OK"
+2025-03-16 14:15:47,588 - ERROR - Error generating solution with gpt-3.5-turbo: Could not find field at `createOneLLMSolution.data.questionId`
+Traceback (most recent call last):
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 198, in generate_solution
+    await store_llm_solution({
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\app\main.py", line 108, in store_llm_solution
+    await prisma_client.llmsolution.create(
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\actions.py", line 1208, in create
+    resp = await self._client._execute(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\_base_client.py", line 543, in _execute
+    return await self._engine.query(builder.build(), tx_id=self._tx_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_query.py", line 402, in query
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 233, in request
+    return self._process_response_data(data=data, response=response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\_http.py", line 87, in _process_response_data
+    return utils.handle_response_errors(response, errors_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Desktop\TGBH_CheeseBurger\code-similarity\myenv\Lib\site-packages\prisma\engine\utils.py", line 175, in handle_response_errors
+    raise exc(error)
+prisma.errors.FieldNotFoundError: Could not find field at `createOneLLMSolution.data.questionId`
+2025-03-16 14:15:47,589 - INFO - Completed generate node for gpt-3.5-turbo
+2025-03-16 14:15:47,590 - INFO - Executing comparison node...
+2025-03-16 14:15:48,579 - INFO - All solutions ready, proceeding with comparison
+2025-03-16 14:15:48,579 - INFO - Starting solution comparison...
+2025-03-16 14:15:50,963 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"

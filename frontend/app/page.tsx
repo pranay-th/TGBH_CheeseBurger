@@ -111,16 +111,22 @@ export default function Home() {
           ) : (
             <>
               <button
-                onClick={() => router.push('/login')}
+                onClick={() => router.push('/admin_login')}
                 className="bg-gray-700 hover:bg-gray-600 px-8 py-3 rounded-md text-lg font-medium transition-colors"
               >
-                Login
+                Admin
+              </button>
+              <button
+                onClick={() => router.push('/login')}
+                className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-md text-lg font-medium transition-colors"
+              >
+                Candidate Login
               </button>
               <button
                 onClick={() => router.push('/signup')}
                 className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-md text-lg font-medium transition-colors"
               >
-                Sign Up
+                Candidate Sign-Up
               </button>
             </>
           )}

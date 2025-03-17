@@ -642,7 +642,7 @@ def generate_report(state: SecurityAuditState) -> SecurityAuditState:
     )
     
     # Save report to file
-    report_path = f"security_report_{time.strftime('%Y%m%d_%H%M%S')}.md"
+    report_path = f"security_report.md"
     with open(report_path, 'w') as f:
         f.write(response.content)
     

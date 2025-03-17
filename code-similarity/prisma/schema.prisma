@@ -24,7 +24,7 @@ model LLMSolution {
   questionId Int
   llmName    String
   solution   String
-  metrics    Json?    @default("{}")
+  metrics    Json     @default("{}")
   timestamp  DateTime @default(now())
   question   Question @relation(fields: [questionId], references: [id])
 }
