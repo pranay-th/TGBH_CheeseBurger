@@ -1,102 +1,171 @@
+'use client';
+
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+  // Check if user is logged in
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/me');
+        const data = await response.json();
+        
+        if (data.success && data.username) {
+          setIsLoggedIn(true);
+          setUsername(data.username);
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+      }
+    };
+    
+    checkAuth();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+      {/* Navbar */}
+      <nav className="bg-gray-800 px-6 py-4 shadow-md">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-2">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/favicon.ico"
+              alt="Logo"
+              width={32}
+              height={32}
+              className="rounded-md"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <span className="text-xl font-bold text-indigo-400">TGBH CheeseBurger</span>
+          </div>
+          
+          <div className="flex items-center space-x-6">
+            <Link href="/" className="hover:text-indigo-400 transition-colors">
+              Home
+            </Link>
+            {isLoggedIn ? (
+              <>
+                <Link href="/stream" className="hover:text-indigo-400 transition-colors">
+                  Take Exam
+                </Link>
+                <div className="text-green-400">
+                  Welcome, {username}
+                </div>
+                <button 
+                  onClick={async () => {
+                    try {
+                      await fetch('/api/logout', { method: 'POST' });
+                      setIsLoggedIn(false);
+                      setUsername("");
+                      router.refresh();
+                    } catch (error) {
+                      console.error('Logout failed:', error);
+                    }
+                  }}
+                  className="text-red-400 hover:text-red-300 transition-colors"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="hover:text-indigo-400 transition-colors">
+                  Login
+                </Link>
+                <Link 
+                  href="/signup" 
+                  className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md transition-colors"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </nav>
+
+      {/* Hero Section */}
+      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 text-center">
+        <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
+          Welcome to TGBH CheeseBurger
+        </h1>
+        <p className="text-xl text-gray-300 max-w-2xl mb-8">
+          Advanced coding assessment platform for educational environments. 
+          Test your programming skills with challenging problems from beginner to expert level.
+        </p>
+        
+        <div className="flex flex-col sm:flex-row gap-4 mt-4">
+          {isLoggedIn ? (
+            <button
+              onClick={() => router.push('/stream')}
+              className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-md text-lg font-medium transition-colors"
+            >
+              Take Exam
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={() => router.push('/admin_login')}
+                className="bg-gray-700 hover:bg-gray-600 px-8 py-3 rounded-md text-lg font-medium transition-colors"
+              >
+                Admin
+              </button>
+              <button
+                onClick={() => router.push('/login')}
+                className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-md text-lg font-medium transition-colors"
+              >
+                Candidate Login
+              </button>
+              <button
+                onClick={() => router.push('/signup')}
+                className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-md text-lg font-medium transition-colors"
+              >
+                Candidate Sign-Up
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Features Section */}
+      <div className="bg-gray-800 py-16 px-6">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">Key Features</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-gray-700 p-6 rounded-lg">
+              <div className="text-indigo-400 text-2xl mb-4">📝</div>
+              <h3 className="text-xl font-semibold mb-2">Coding Challenges</h3>
+              <p className="text-gray-300">Practice with a variety of coding questions ranging from easy to hard difficulty levels.</p>
+            </div>
+            
+            <div className="bg-gray-700 p-6 rounded-lg">
+              <div className="text-indigo-400 text-2xl mb-4">📊</div>
+              <h3 className="text-xl font-semibold mb-2">Performance Analytics</h3>
+              <p className="text-gray-300">Track your progress and improvement through detailed performance metrics.</p>
+            </div>
+            
+            <div className="bg-gray-700 p-6 rounded-lg">
+              <div className="text-indigo-400 text-2xl mb-4">🔒</div>
+              <h3 className="text-xl font-semibold mb-2">Secure Platform</h3>
+              <p className="text-gray-300">Robust authentication and encrypted submissions for all your coding solutions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 py-8 px-6 border-t border-gray-800">
+        <div className="container mx-auto text-center text-gray-400">
+          <p>© 2023 TGBH CheeseBurger. All rights reserved.</p>
+          <p className="mt-2 text-sm">A coding assessment platform for educational environments.</p>
+        </div>
       </footer>
     </div>
   );

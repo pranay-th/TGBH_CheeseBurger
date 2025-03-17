@@ -8,80 +8,80 @@ datasource db {
 }
 
 model User {
-  id               Int                @id @default(autoincrement())
-  username         String             @unique
-  password         String
-  AnomalyDetection AnomalyDetection[]
-  eventLogs        EventLog[]
-  ExamSubmission   ExamSubmission[]
-  keystrokes       Keystroke[]
-  mouseMovements   MouseMovement[]
-  tabSwitches      TabSwitch[]
+  id             Int              @id @default(autoincrement())
+  username       String           @unique
+  password       String
+  eventLogs      EventLog[]
+  keystrokes     Keystroke[]
+  mouseMovements MouseMovement[]
+  tabSwitches    TabSwitch[]
+  examSubmissions ExamSubmission[]
+  anomalyDetections AnomalyDetection[]
 }
 
 model EventLog {
-  id         Int      @id @default(autoincrement())
-  userId     Int
-  timestamp  DateTime @default(now())
-  eventType  String
-  details    String?
-  isCheating Boolean?
-  riskScore  Float?
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  timestamp   DateTime @default(now())
+  eventType   String
+  details     String?
+  riskScore   Float?    // Tracks suspicious behavior
+  isCheating  Boolean?  // Flags suspicious actions
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model MouseMovement {
-  id           Int      @id @default(autoincrement())
-  userId       Int
-  timestamp    DateTime @default(now())
-  xPos         Int
-  yPos         Int
-  isCheating   Boolean?
-  movementType String?
-  riskScore    Float?
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  timestamp      DateTime @default(now())
+  xPos           Int
+  yPos           Int
+  movementType   String?   // e.g., 'Erratic', 'Idle', 'Normal'
+  riskScore      Float?    // Tracks mouse movement anomalies
+  isCheating     Boolean?  // Flags erratic movement as potential cheating
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model TabSwitch {
-  id         Int      @id @default(autoincrement())
-  userId     Int
-  timestamp  DateTime @default(now())
-  tabUrl     String
-  isCheating Boolean?
-  riskScore  Float?
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Keystroke {
-  id            Int      @id @default(autoincrement())
-  userId        Int
-  timestamp     DateTime @default(now())
-  keyPressed    String
-  isCheating    Boolean?
-  riskScore     Float?
-  typingPattern String?
-  typingSpeed   Float?
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model ExamSubmission {
   id          Int      @id @default(autoincrement())
   userId      Int
-  score       Float
-  timeSpent   Int
-  submittedAt DateTime @default(now())
-  isCheating  Boolean?
-  riskScore   Float?
-  answers     Json
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  timestamp   DateTime @default(now())
+  tabUrl      String
+  riskScore   Float?    // Tracks suspicious tab switching
+  isCheating  Boolean?  // Flags frequent or suspicious switching
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model AnomalyDetection {
   id         Int      @id @default(autoincrement())
   userId     Int
   timestamp  DateTime @default(now())
-  featureSet Json
-  riskScore  Float
-  isCheating Boolean
-  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  featureSet Json     // Stores features from Isolation Forest/Autoencoder
+  riskScore  Float    // Final anomaly score (0-1 scale)
+  isCheating Boolean  // Final label for detected anomalies
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Keystroke {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  timestamp    DateTime @default(now())
+  keyPressed   String
+  typingSpeed  Float?    // Characters per second
+  typingPattern String?  // e.g., 'Fast', 'Erratic', 'Paused'
+  riskScore    Float?    // Tracks typing anomalies
+  isCheating   Boolean?  // Flags suspicious typing behavior
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ExamSubmission {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  score         Float
+  timeSpent     Int       // Time spent in seconds
+  answers       Json      // JSON object to store question-wise responses
+  submittedAt   DateTime  @default(now())
+  riskScore     Float?    // Tracks potential cheating during submission
+  isCheating    Boolean?  // Final submission-level cheating flag
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

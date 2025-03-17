@@ -1,0 +1,8 @@
+selenium
+stable-baselines3
+gymnasium
+torch
+numpy
+opencv-python
+pandas
+tqdm

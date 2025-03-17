@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int              @id @default(autoincrement())
+  username       String           @unique
+  password       String
+  eventLogs      EventLog[]
+  keystrokes     Keystroke[]
+  mouseMovements MouseMovement[]
+  tabSwitches    TabSwitch[]
+  ExamSubmission ExamSubmission[]
+}
+
+model EventLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  timestamp DateTime @default(now())
+  eventType String
+  details   String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model MouseMovement {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  timestamp DateTime @default(now())
+  xPos      Int
+  yPos      Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model TabSwitch {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  timestamp DateTime @default(now())
+  tabUrl    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Keystroke {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  timestamp  DateTime @default(now())
+  keyPressed String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ExamSubmission {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  score       Float
+  timeSpent   Int // in seconds
+  answers     String // JSON string of answers
+  submittedAt DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+  

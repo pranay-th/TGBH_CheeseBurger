@@ -1,5 +1,6 @@
-generator client {
-  provider = "prisma-client-js"
+generator py {
+  provider             = "prisma-client-py"
+  recursive_type_depth = "-1"
 }
 
 datasource db {
@@ -23,7 +24,7 @@ model LLMSolution {
   questionId Int
   llmName    String
   solution   String
-  metrics    Json?    @default("{}")
+  metrics    Json     @default("{}")
   timestamp  DateTime @default(now())
   question   Question @relation(fields: [questionId], references: [id])
 }
@@ -36,4 +37,21 @@ model Comparison {
   similarityScores  Json
   timestamp         DateTime @default(now())
   question          Question @relation(fields: [questionId], references: [id])
+}
+
+model Problem {
+  id          Int             @id @default(autoincrement())
+  text        String
+  language    String          @default("Python")
+  constraints String?
+  difficulty  DifficultyLevel @default(MEDIUM)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime
+}
+
+enum DifficultyLevel {
+  EASY
+  MEDIUM
+  HARD
+  EXPERT
 }
